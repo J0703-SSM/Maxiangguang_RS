@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.cost.mapper.CostMapper" >
+  <resultMap id="BaseResultMap" type="com.baidu.cost.domain.Cost" >
+    <constructor >
+      <idArg column="costId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="costName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="baseDuration" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="baseCost" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="unitCost" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="status" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="des" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="creatTime" jdbcType="DATE" javaType="java.util.Date" />
+      <arg column="startTime" jdbcType="DATE" javaType="java.util.Date" />
+      <arg column="costType" jdbcType="CHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    costId, costName, baseDuration, baseCost, unitCost, status, des, creatTime, startTime, 
+    costType
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cost
+    where costId = #{costId,jdbcType=INTEGER}
+  </select>
+
+  <select id="findAll"
+          parameterType="com.baidu.cost.domain.Cost"
+          resultType="com.baidu.cost.domain.Cost">
+    SELECT * FROM cost
+    <if test="baseDuration != null and baseDuration != ''">
+      ORDER By baseDuration
+    </if>
+    <if test="baseCost != null and baseCost != ''">
+      ORDER By baseCost
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cost
+    where costId = #{costId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.baidu.cost.domain.Cost" >
+    insert into cost (costName, baseDuration,
+      baseCost, unitCost, status, 
+      des, creatTime, startTime, 
+      costType)
+    values (#{costname,jdbcType=VARCHAR}, #{baseduration,jdbcType=INTEGER},
+      #{basecost,jdbcType=DOUBLE}, #{unitcost,jdbcType=DOUBLE}, #{status,jdbcType=CHAR}, 
+      #{des,jdbcType=VARCHAR}, #{creattime,jdbcType=DATE}, #{starttime,jdbcType=DATE}, 
+      #{costtype,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.baidu.cost.domain.Cost" >
+    insert into cost
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="costId != null" >
+        costId,
+      </if>
+      <if test="costname != null" >
+        costName,
+      </if>
+      <if test="baseduration != null" >
+        baseDuration,
+      </if>
+      <if test="basecost != null" >
+        baseCost,
+      </if>
+      <if test="unitcost != null" >
+        unitCost,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="des != null" >
+        des,
+      </if>
+      <if test="creattime != null" >
+        creatTime,
+      </if>
+      <if test="starttime != null" >
+        startTime,
+      </if>
+      <if test="costtype != null" >
+        costType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="costId != null" >
+        #{costId,jdbcType=INTEGER},
+      </if>
+      <if test="costname != null" >
+        #{costname,jdbcType=VARCHAR},
+      </if>
+      <if test="baseduration != null" >
+        #{baseduration,jdbcType=INTEGER},
+      </if>
+      <if test="basecost != null" >
+        #{basecost,jdbcType=DOUBLE},
+      </if>
+      <if test="unitcost != null" >
+        #{unitcost,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="des != null" >
+        #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="creattime != null" >
+        #{creattime,jdbcType=DATE},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=DATE},
+      </if>
+      <if test="costtype != null" >
+        #{costtype,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.baidu.cost.domain.Cost" >
+    update cost
+    <set >
+      <if test="costname != null" >
+        costName = #{costname,jdbcType=VARCHAR},
+      </if>
+      <if test="baseduration != null" >
+        baseDuration = #{baseduration,jdbcType=INTEGER},
+      </if>
+      <if test="basecost != null" >
+        baseCost = #{basecost,jdbcType=DOUBLE},
+      </if>
+      <if test="unitcost != null" >
+        unitCost = #{unitcost,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="des != null" >
+        des = #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="creattime != null" >
+        creatTime = #{creattime,jdbcType=DATE},
+      </if>
+      <if test="starttime != null" >
+        startTime = #{starttime,jdbcType=DATE},
+      </if>
+      <if test="costtype != null" >
+        costType = #{costtype,jdbcType=CHAR},
+      </if>
+    </set>
+    where costId = #{costId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.baidu.cost.domain.Cost" >
+    update cost
+    set costName = #{costname,jdbcType=VARCHAR},
+      baseDuration = #{baseduration,jdbcType=INTEGER},
+      baseCost = #{basecost,jdbcType=DOUBLE},
+      unitCost = #{unitcost,jdbcType=DOUBLE},
+      status = #{status,jdbcType=CHAR},
+      des = #{des,jdbcType=VARCHAR},
+      creatTime = #{creattime,jdbcType=DATE},
+      startTime = #{starttime,jdbcType=DATE},
+      costType = #{costtype,jdbcType=CHAR}
+    where costId = #{costId,jdbcType=INTEGER}
+  </update>
+
+
+</mapper>
