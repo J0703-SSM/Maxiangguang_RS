@@ -16,15 +16,15 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="validator"
-          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-        <!--声明输入验证的提供者是hibernate-->
-        <property name="providerClass"
-                  value="org.hibernate.validator.HibernateValidator"/>
+    <!--<bean id="validator"-->
+          <!--class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">-->
+        <!--&lt;!&ndash;声明输入验证的提供者是hibernate&ndash;&gt;-->
+        <!--<property name="providerClass"-->
+                  <!--value="org.hibernate.validator.HibernateValidator"/>-->
 
-    </bean>
+    <!--</bean>-->
 
-    <mvc:annotation-driven validator="validator"/>
+    <mvc:annotation-driven/>
 
     <!--注解扫描的根路径-->
     <context:component-scan base-package="com.baidu"/>
@@ -33,9 +33,9 @@
     <mvc:default-servlet-handler/>
 
     <!--静态资源扫描路径-->
-    <mvc:resources mapping="images/**" location="/resources/images/"/>
-    <mvc:resources mapping="js/**" location="/resources/js/"/>
-    <mvc:resources mapping="styles/**" location="/resources/styles/"/>
+    <!--<mvc:resources mapping="images/**" location="/resources/images/"/>-->
+    <!--<mvc:resources mapping="js/**" location="/resources/js/"/>-->
+    <!--<mvc:resources mapping="styles/**" location="/resources/styles/"/>-->
 
     <!--配置视图解析规则-->
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -96,15 +96,15 @@
     </bean>
 
     <!--配置拦截器-->
-    <mvc:interceptors>
-        <!--拦截器的执行顺序, 按照加入顺序-->
-        <mvc:interceptor>
-            <!--要拦截的请求路径-->
-            <mvc:mapping path="/**"/>
-            <!--拦截器所对应的类路径-->
-            <bean class="com.baidu.base.interceptor.LoginInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
+    <!--<mvc:interceptors>-->
+        <!--&lt;!&ndash;拦截器的执行顺序, 按照加入顺序&ndash;&gt;-->
+        <!--<mvc:interceptor>-->
+            <!--&lt;!&ndash;要拦截的请求路径&ndash;&gt;-->
+            <!--<mvc:mapping path="/**"/>-->
+            <!--&lt;!&ndash;拦截器所对应的类路径&ndash;&gt;-->
+            <!--<bean class="com.baidu.base.interceptor.LoginInterceptor"/>-->
+        <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
 
 
 

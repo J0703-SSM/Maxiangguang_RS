@@ -1,32 +1,34 @@
 package com.baidu.cost.domain;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.util.Date;
 
 public class Cost {
     private Integer costId;
-
+    @NotBlank(message = "不能为空")
     private String costName;
-
+    @NotBlank(message = "不能为空")
     private Integer baseDuration;
-
+    @NotBlank(message = "不能为空")
     private Double baseCost;
-
+    @NotBlank(message = "不能为空")
     private Double unitCost;
 
-    private String status;
-
+    private Integer status;
+    @NotBlank(message = "不能为空")
     private String des;
 
-    private Date creatTime;
+    private Date createTime;
 
     private Date startTime;
 
-    private String costType;
+    private Integer costType;
 
     public Cost() {
     }
 
-    public Cost(Integer costId, String costName, Integer baseDuration, Double baseCost, Double unitCost, String status, String des, Date creatTime, Date startTime, String costType) {
+    public Cost(Integer costId, String costName, Integer baseDuration, Double baseCost, Double unitCost, Integer status, String des, Date creatTime, Date startTime, Integer costType) {
         this.costId = costId;
         this.costName = costName;
         this.baseDuration = baseDuration;
@@ -34,19 +36,19 @@ public class Cost {
         this.unitCost = unitCost;
         this.status = status;
         this.des = des;
-        this.creatTime = creatTime;
+        this.createTime = creatTime;
         this.startTime = startTime;
         this.costType = costType;
     }
 
-    public Cost(String costName, Integer baseDuration, Double baseCost, Double unitCost, String status, String des, Date creatTime, Date startTime, String costType) {
+    public Cost(String costName, Integer baseDuration, Double baseCost, Double unitCost, Integer status, String des, Date creatTime, Date startTime, Integer costType) {
         this.costName = costName;
         this.baseDuration = baseDuration;
         this.baseCost = baseCost;
         this.unitCost = unitCost;
         this.status = status;
         this.des = des;
-        this.creatTime = creatTime;
+        this.createTime = creatTime;
         this.startTime = startTime;
         this.costType = costType;
     }
@@ -61,7 +63,7 @@ public class Cost {
                 ", unitCost=" + unitCost +
                 ", status='" + status + '\'' +
                 ", des='" + des + '\'' +
-                ", creatTime=" + creatTime +
+                ", createTime=" + createTime +
                 ", startTime=" + startTime +
                 ", costType='" + costType + '\'' +
                 '}';
@@ -107,11 +109,11 @@ public class Cost {
         this.unitCost = unitCost;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -123,12 +125,12 @@ public class Cost {
         this.des = des;
     }
 
-    public Date getCreatTime() {
-        return creatTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getStartTime() {
@@ -139,11 +141,11 @@ public class Cost {
         this.startTime = startTime;
     }
 
-    public String getCostType() {
+    public Integer getCostType() {
         return costType;
     }
 
-    public void setCostType(String costType) {
+    public void setCostType(Integer costType) {
         this.costType = costType;
     }
 }

@@ -1,4 +1,6 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page isELIgnored="false" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -66,7 +68,7 @@
                 <li><a href="/index" class="index_off"></a></li>
                 <li><a href="/role_list" class="role_off"></a></li>
                 <li><a href="/admin_list" class="admin_off"></a></li>
-                <li><a href="/fee_list" class="fee_off"></a></li>
+                <li><a href="/findAllFee" class="fee_off"></a></li>
                 <li><a href="/account_list" class="account_off"></a></li>
                 <li><a href="/service_list" class="service_off"></a></li>
                 <li><a href="/bill_list" class="bill_off"></a></li>
@@ -79,53 +81,52 @@
         <!--主要区域开始-->
         <div id="main">            
             <div id="save_result_info" class="save_success">保存成功！</div>
-            <form action="" method="" class="main_form">
+            <form action="/updateFee" method="post" class="main_form">
                 <div class="text_info clearfix"><span>资费ID：</span></div>
-                <div class="input_info"><input type="text" class="readonly" readonly value="1" /></div>
+                <div class="input_info"><input type="text" class="readonly" readonly name="costId" value="${cost.costId}" /></div>
                 <div class="text_info clearfix"><span>资费名称：</span></div>
                 <div class="input_info">
-                    <input type="text" class="width300" value="包 20 小时"/>
+                    <input type="text" class="width300" name="costName" value="${cost.costName}"/>
                     <span class="required">*</span>
                     <div class="validate_msg_short">50长度的字母、数字、汉字和下划线的组合</div>
                 </div>
                 <div class="text_info clearfix"><span>资费类型：</span></div>
                 <div class="input_info fee_type">
-                    <input type="radio" name="radFeeType" id="monthly" onclick="feeTypeChange(1);" />
+                    <input type="radio" name="costType" value="2" <c:if test="${cost.costType == 2}">checked</c:if> id="monthly" onclick="feeTypeChange(1);" />
                     <label for="monthly">包月</label>
-                    <input type="radio" name="radFeeType" checked="checked" id="package" onclick="feeTypeChange(2);" />
+                    <input type="radio" name="costType" value="1" <c:if test="${cost.costType == 1}">checked</c:if> id="package" onclick="feeTypeChange(2);" />
                     <label for="package">套餐</label>
-                    <input type="radio" name="radFeeType" id="timeBased" onclick="feeTypeChange(3);" />
+                    <input type="radio" name="costType" value="3" <c:if test="${cost.costType == 3}">checked</c:if> id="timeBased" onclick="feeTypeChange(3);" />
                     <label for="timeBased">计时</label>
                 </div>
                 <div class="text_info clearfix"><span>基本时长：</span></div>
                 <div class="input_info">
-                    <input type="text" value="" class="width100" />
+                    <input type="text" name="baseDuration" value="${cost.baseDuration}" class="width100" />
                     <span class="info">小时</span>
                     <span class="required">*</span>
                     <div class="validate_msg_long">1-600之间的整数</div>
                 </div>
                 <div class="text_info clearfix"><span>基本费用：</span></div>
                 <div class="input_info">
-                    <input type="text" value="" class="width100" />
+                    <input type="text" name="baseCost" value="${cost.baseCost}" class="width100" />
                     <span class="info">元</span>
                     <span class="required">*</span>
                     <div class="validate_msg_long">0-99999.99之间的数值</div>
                 </div>
                 <div class="text_info clearfix"><span>单位费用：</span></div>
                 <div class="input_info">
-                    <input type="text" value="" class="width100" />
+                    <input type="text" name="unitCost" value="${cost.unitCost}" class="width100" />
                     <span class="info">元/小时</span>
                     <span class="required">*</span>
                     <div class="validate_msg_long">0-99999.99之间的数值</div>
                 </div>   
                 <div class="text_info clearfix"><span>资费说明：</span></div>
                 <div class="input_info_high">
-                    <textarea class="width300 height70">没有启用的资费，可以修改除 ID 以外的所有信息
-                    </textarea>
+                    <textarea class="width300 height70" name="des">${cost.des}</textarea>
                     <div class="validate_msg_short">100长度的字母、数字、汉字和下划线的组合</div>
                 </div>                    
                 <div class="button_info clearfix">
-                    <input type="button" value="保存" class="btn_save"  onclick="showResult();" />
+                    <input type="submit" value="保存" class="btn_save"  onclick="showResult();" />
                     <input type="button" value="取消" class="btn_save" />
                 </div>
             </form>

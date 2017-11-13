@@ -1,5 +1,6 @@
 package com.baidu.cost.service;
 
+import com.baidu.base.domain.PageBean;
 import com.baidu.cost.domain.Cost;
 
 import java.util.List;
@@ -9,19 +10,21 @@ import java.util.List;
  */
 public interface CostService {
 
-    int deleteByPrimaryKey(Integer costid);
-
     int insert(Cost record);
 
-    int insertSelective(Cost record);
 
-    Cost selectByPrimaryKey(Integer costid);
-
-    List<Cost> findAll(Cost record);
-
-    int updateByPrimaryKeySelective(Cost record);
-
-    int updateByPrimaryKey(Cost record);
+    List<Cost> findAll();
 
 
+    PageBean<Cost> Order(String rankBaseD,String rankBaseC, PageBean<Cost> pageBean);
+
+    void updateStatus(Cost cost);
+
+    Cost findById(Integer costId);
+
+    void update(Cost cost);
+
+    void deleteById(Integer costId);
+
+    PageBean<Cost> findAll(PageBean<Cost> pageBean);
 }

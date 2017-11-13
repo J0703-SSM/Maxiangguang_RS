@@ -1,21 +1,25 @@
 package com.baidu.cost.mapper;
 
+import com.baidu.base.domain.PageBean;
 import com.baidu.cost.domain.Cost;
 
 import java.util.List;
 
 public interface CostMapper {
-    int deleteByPrimaryKey(Integer costid);
+    int deleteById(Integer costId);
 
     int insert(Cost record);
 
-    int insertSelective(Cost record);
+    List<Cost> findAll();
 
-    Cost selectByPrimaryKey(Integer costid);
+//    List<Cost> orderByBaseDuration(List<String> params);
+    List<Cost> orderByBaseDuration(String rankBaseD, String rankBaseC);
 
-    List<Cost> findAll(Cost record);
+    void updateStatus(Cost cost);
 
-    int updateByPrimaryKeySelective(Cost record);
+    Cost findById(Integer costId);
 
-    int updateByPrimaryKey(Cost record);
+    void update(Cost cost);
+
+    List<Cost> findAll1(PageBean<Cost> pageBean);
 }

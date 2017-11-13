@@ -5,7 +5,37 @@
         <title></title>
         <link type="text/css" rel="stylesheet" media="all" href="/resources/styles/global.css" />
         <link type="text/css" rel="stylesheet" media="all" href="/resources/styles/global_color.css" />
+        <script src="/resources/js/jquery-3.2.1.js"></script>
         <script language="javascript" type="text/javascript">
+            var baseDuration = document.getElementById("baseDuration");
+            var baseCost = document.getElementById("baseCost");
+            var unitCost = document.getElementById("unitCost");
+            var costName = document.getElementById("costName");
+
+            costName.onblur = function () {
+                if (!costName.value.text(/^[^_][a-zA-Z0-9_\u4e00-\u9fa5]{1,50}[^_]$/)){
+                    $("#s1").innerText = "输入有误!"
+                }
+            };
+
+            baseCost.onblur = function () {
+                if (!baseCost.value.text(/\d{1,10000}/)){
+                    $("#s3").innerText = "输入有误!"
+                }
+            };
+
+            unitCost.onblur = function () {
+                if (!unitCost.value.text(/\d{1,10000}/)){
+                    $("#s4").innerText = "输入有误!"
+                }
+            };
+            baseDuration.onblur = function () {
+                if (!baseDuration.value.text(/\d{1,600}/)){
+                    $("#s2").innerText = "输入有误!"
+                }
+            };
+
+
             //保存结果的提示
             function showResult() {
                 showResultDiv(true);
@@ -50,6 +80,7 @@
                     inputArray[6].readOnly = false;
                     inputArray[6].className = "width100";
                 }
+
             }
         </script>
     </head>
@@ -66,7 +97,7 @@
                 <li><a href="/index" class="index_off"></a></li>
                 <li><a href="/role_list" class="role_off"></a></li>
                 <li><a href="/admin_list" class="admin_off"></a></li>
-                <li><a href="/fee_list" class="fee_off"></a></li>
+                <li><a href="/findAllFee" class="fee_off"></a></li>
                 <li><a href="/account_list" class="account_off"></a></li>
                 <li><a href="/service_list" class="service_off"></a></li>
                 <li><a href="/bill_list" class="bill_off"></a></li>
@@ -79,51 +110,51 @@
         <!--主要区域开始-->
         <div id="main">            
             <div id="save_result_info" class="save_fail">保存失败，资费名称重复！</div>
-            <form action="" method="" class="main_form">
+            <form action="/feeAdd" method="post" class="main_form">
                 <div class="text_info clearfix"><span>资费名称：</span></div>
                 <div class="input_info">
-                    <input type="text" class="width300" value=""/>
-                    <span class="required">*</span>
+                    <input type="text" class="width300" value="" name="costName" id="costName"/>
+                    <span class="required" id="s1">*</span>
                     <div class="validate_msg_short">50长度的字母、数字、汉字和下划线的组合</div>
                 </div>
                 <div class="text_info clearfix"><span>资费类型：</span></div>
                 <div class="input_info fee_type">
-                    <input type="radio" name="radFeeType" id="monthly" onclick="feeTypeChange(1);" />
+                    <input type="radio" name="costType" id="monthly" onclick="feeTypeChange(1);" value="2"/>
                     <label for="monthly">包月</label>
-                    <input type="radio" name="radFeeType" checked="checked" id="package" onclick="feeTypeChange(2);" />
+                    <input type="radio" name="costType" checked="checked" id="package" onclick="feeTypeChange(2);" value="1"/>
                     <label for="package">套餐</label>
-                    <input type="radio" name="radFeeType" id="timeBased" onclick="feeTypeChange(3);" />
+                    <input type="radio" name="costType" id="timeBased" onclick="feeTypeChange(3);" value="3"/>
                     <label for="timeBased">计时</label>
                 </div>
                 <div class="text_info clearfix"><span>基本时长：</span></div>
                 <div class="input_info">
-                    <input type="text" value="" class="width100" />
+                    <input type="text" value="" class="width100" name="baseDuration" id="baseDuration"/>
                     <span class="info">小时</span>
-                    <span class="required">*</span>
+                    <span class="required" id="s2">*</span>
                     <div class="validate_msg_long">1-600之间的整数</div>
                 </div>
                 <div class="text_info clearfix"><span>基本费用：</span></div>
                 <div class="input_info">
-                    <input type="text" value="" class="width100" />
+                    <input type="text" value="" class="width100" name="baseCost" id="baseCost"/>
                     <span class="info">元</span>
-                    <span class="required">*</span>
+                    <span class="required" id="s3">*</span>
                     <div class="validate_msg_long error_msg">0-99999.99之间的数值</div>
                 </div>
                 <div class="text_info clearfix"><span>单位费用：</span></div>
                 <div class="input_info">
-                    <input type="text" value="" class="width100" />
+                    <input type="text" class="width100" name="unitCost" id="unitCost"/>
                     <span class="info">元/小时</span>
-                    <span class="required">*</span>
+                    <span class="required" id="s4">*</span>
                     <div class="validate_msg_long error_msg">0-99999.99之间的数值</div>
                 </div>
                 <div class="text_info clearfix"><span>资费说明：</span></div>
                 <div class="input_info_high">
-                    <textarea class="width300 height70"></textarea>
+                    <textarea class="width300 height70" name="des"></textarea>
                     <div class="validate_msg_short error_msg">100长度的字母、数字、汉字和下划线的组合</div>
                 </div>                    
                 <div class="button_info clearfix">
-                    <input type="button" value="保存" class="btn_save"  onclick="showResult();" />
-                    <input type="button" value="取消" class="btn_save" />
+                    <input type="submit" value="保存" class="btn_save"  onclick="showResult();" />
+                    <input type="reset" value="取消" class="btn_save" />
                 </div>
             </form>  
         </div>
@@ -133,5 +164,7 @@
             <br />
            <span>版权所有(C)云科技有限公司 </span>
         </div>
+
+
     </body>
 </html>
