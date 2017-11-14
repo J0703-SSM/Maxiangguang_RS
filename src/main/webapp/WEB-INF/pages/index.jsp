@@ -11,7 +11,7 @@
         <div id="index_navi">
             <ul id="menu">
                 <li><a href="/index" class="index_on"></a></li>
-                <li><a href="/role_list" class="role_off"></a></li>
+                <li><a href="/role/role_list" class="role_off"></a></li>
                 <li><a href="/admin_list" class="admin_off"></a></li>
                 <li><a href="/findAllFee" class="fee_off"></a></li>
                 <li><a href="/account_list" class="account_off"></a></li>

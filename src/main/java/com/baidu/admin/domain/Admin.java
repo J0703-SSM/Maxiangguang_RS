@@ -1,10 +1,6 @@
 package com.baidu.admin.domain;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -13,11 +9,11 @@ import java.util.Date;
 public class Admin {
 
     private int adminId;
-    @NotNull(message = "not null")
-    private String adminCode;
-    @NotNull(message = "not null")
+    private String adminCode;//工号
+    @NotBlank(message = "3 ~ 20 位之间")
     private String password;
     private String code;
+    @NotBlank(message = "3 ~ 20 位之间")
     private String name;
     private String telephone;
     private String email;

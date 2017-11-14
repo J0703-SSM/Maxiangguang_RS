@@ -1,4 +1,4 @@
-package com.baidu.admin.domain;
+package com.baidu.privilege.domain;
 
 /**
  * Created by dllo on 17/11/14.

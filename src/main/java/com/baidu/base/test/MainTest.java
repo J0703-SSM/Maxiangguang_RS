@@ -3,6 +3,8 @@ package com.baidu.base.test;
 import com.baidu.base.domain.PageBean;
 import com.baidu.cost.domain.Cost;
 import com.baidu.cost.mapper.CostMapper;
+import com.baidu.role.domain.Role;
+import com.baidu.role.mapper.RoleMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -21,7 +23,7 @@ public class MainTest {
     @Before
     public void init(){
         // 获得启动容器
-        context = new ClassPathXmlApplicationContext("spring-config.xml");
+        context = new ClassPathXmlApplicationContext("/spring/spring-*.xml");
 
     }
 
@@ -62,6 +64,14 @@ public class MainTest {
             System.out.println(cost);
         }
 
+    }
+    @Test
+    public void testFindRole(){
+        RoleMapper roleMapper = (RoleMapper) context.getBean("roleMapper");
+        List<Role> all = roleMapper.findAll();
+        for (Role role : all) {
+            System.out.println(role);
+        }
     }
 
 

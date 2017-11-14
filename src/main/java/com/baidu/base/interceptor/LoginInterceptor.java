@@ -13,11 +13,11 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
 
-//        String username = (String) request.getSession().getAttribute("user.username");
-//
-//        if ("".equals(username)){
-//
-//        }
+        String username = (String) request.getSession().getAttribute("user.username");
+
+        if ("".equals(username)){
+
+        }
 
         return true;
     }

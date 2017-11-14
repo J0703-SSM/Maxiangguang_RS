@@ -16,36 +16,6 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--验证-->
-    <bean id="validator"
-          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-        <!--声明输入验证的提供者是hibernate-->
-        <property name="providerClass"
-                  value="org.hibernate.validator.HibernateValidator"/>
-    </bean>
-
-    <!--加入注解-->
-    <mvc:annotation-driven validator="validator"/>
-
-    <!--注解扫描的根路径-->
-    <context:component-scan base-package="com.baidu"/>
-
-    <!--将静态页面的处理交由web服务器自己处理, springmvc不处理-->
-    <mvc:default-servlet-handler/>
-
-    <!--静态资源扫描路径-->
-    <mvc:resources mapping="images/**" location="/resources/images/"/>
-    <mvc:resources mapping="js/**" location="/resources/js/"/>
-    <mvc:resources mapping="styles/**" location="/resources/styles/"/>
-
-    <!--配置视图解析规则-->
-    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass"
-                  value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/WEB-INF/pages/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
-
     <!--mapper-->
     <!--引入db属性文件-->
     <context:property-placeholder location="classpath:db.properties"/>
@@ -92,7 +62,6 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--mapper接口代理对象所在的包-->
         <property name="basePackage" value="com.baidu.*.mapper"/>
-
         <!--定义sessionFactory, 引用上面配置的工厂对象-->
         <property name="sqlSessionFactoryBeanName" value="sessionFactory"/>
     </bean>
@@ -115,7 +84,6 @@
             <!--<bean class="com.baidu.base.interceptor.LoginInterceptor"/>-->
         <!--</mvc:interceptor>-->
     <!--</mvc:interceptors>-->
-
 
 
 </beans>

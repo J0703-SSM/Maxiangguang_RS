@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baidu.role.mapper.RoleMapper">
+
+    <resultMap id="roleMap" type="com.baidu.role.domain.Role">
+        <id column="id" property="roleId"/>
+        <result column="name" property="roleName"/>
+        <result column="pr" property="privilege"/>
+    </resultMap>
+    <select id="findAll"
+            resultMap="roleMap">
+        SELECT r.roleId id, r.roleName name, group_concat(p.privilegeName SEPARATOR ',') pr
+        FROM role_info r LEFT JOIN (role_privilege rp, privilege_info p) ON
+        r.roleId = rp.role_id
+        AND rp.privilege_id = p.privilegeId
+        GROUP BY r.roleId
+    </select>
+
+    <select id="findAll1"
+            parameterType="com.baidu.base.domain.PageBean"
+            resultMap="roleMap">
+        SELECT r.roleId id, r.roleName name, group_concat(p.privilegeName SEPARATOR ',') pr
+        FROM role_info r LEFT JOIN (role_privilege rp, privilege_info p) ON
+        r.roleId = rp.role_id
+        AND rp.privilege_id = p.privilegeId
+        GROUP BY r.roleId limit #{start},#{ps}
+    </select>
+
+    <select id="findById" parameterType="int"
+            resultType="com.baidu.role.domain.Role">
+        SELECT * FROM role_info WHERE roleId = #{roleId}
+    </select>
+
+    <select id="findByName" parameterType="java.lang.String"
+            resultType="com.baidu.role.domain.Role">
+        SELECT * FROM role_info WHERE roleName = #{value}
+    </select>
+
+    <insert id="insert" parameterType="com.baidu.role.domain.Role">
+        INSERT INTO
+        role_info(roleName)
+        VALUES (#{roleName})
+    </insert>
+
+    <update id="updateStatus" parameterType="com.baidu.cost.domain.Cost">
+        UPDATE cost set status = #{status}, startTime = #{startTime} WHERE costId = #{costId}
+    </update>
+
+    <update id="update"
+            parameterType="com.baidu.cost.domain.Cost">
+        UPDATE cost set costName=#{costName},baseDuration=#{baseDuration},
+        baseCost=#{baseCost},unitCost=#{unitCost},status=#{status},des=#{des},
+        createTime=#{createTime},startTime=#{startTime},costType=#{costType}
+        WHERE costId=#{costId}
+    </update>
+
+    <delete id="deleteById"
+            parameterType="int">
+        DELETE FROM cost WHERE costId = #{costId}
+    </delete>
+
+
+    <select id="OrderByBaseDuration"
+            parameterType="java.util.List"
+            resultType="com.baidu.cost.domain.Cost">
+        SELECT * FROM cost ORDER By baseDuration #{value}, baseCast #{value}
+    </select>
+
+</mapper>

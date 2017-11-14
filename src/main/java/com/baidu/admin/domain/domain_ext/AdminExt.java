@@ -9,30 +9,30 @@ import java.util.Map;
  */
 public class AdminExt extends Admin {
 
-    private Map<Integer, String> roles;
-    private Map<Integer, String> privileges;
+    private String roles;
+    private String privilege;
 
     @Override
     public String toString() {
         return "AdminExt{" +
-                "roles=" + roles +
-                ", privileges=" + privileges +
+                "roles='" + roles + '\'' +
+                ", privilege='" + privilege + '\'' +
                 "} " + super.toString();
     }
 
-    public Map<Integer, String> getRoles() {
+    public String getRoles() {
         return roles;
     }
 
-    public void setRoles(Map<Integer, String> roles) {
+    public void setRoles(String roles) {
         this.roles = roles;
     }
 
-    public Map<Integer, String> getPrivileges() {
-        return privileges;
+    public String getPrivilege() {
+        return privilege;
     }
 
-    public void setPrivileges(Map<Integer, String> privileges) {
-        this.privileges = privileges;
+    public void setPrivilege(String privilege) {
+        this.privilege = privilege;
     }
 }

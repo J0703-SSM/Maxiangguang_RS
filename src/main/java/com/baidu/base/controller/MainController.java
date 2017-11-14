@@ -55,22 +55,28 @@ public class MainController {
      * 登录
      */
     @RequestMapping("/login")
-    public String login(@Validated Admin admin, HttpSession session,
-                        BindingResult result, Model model) {
+    public String login(@Validated Admin admin, BindingResult result,
+                        HttpSession session, Model model) {
 
         System.out.println(admin);
         System.out.println(text);
         // 判空
-//        if (result.hasErrors()) {
-//            FieldError nameError = result.getFieldError("adminCode");
-//            FieldError pwdError = result.getFieldError("password");
-//
-//            model.addAttribute("nameError", nameError);
-//            model.addAttribute("pwdError", pwdError);
-//        }
+        if (result.hasErrors()) {
+            FieldError nameError = result.getFieldError("name");
+            FieldError pwdError = result.getFieldError("password");
 
-        // 判断验证码
-        if (!text.equals(admin.getCode())) {
+            model.addAttribute("nameError", nameError);
+            model.addAttribute("pwdError", pwdError);
+        }
+        model.addAttribute("name", admin.getName());
+        model.addAttribute("password", admin.getPassword());
+        if ("".equals(admin.getCode())){
+            model.addAttribute("codeError", "验证码不能为空");
+            return "login";
+        }
+
+        // 判断验证码是否相等
+        if (!text.equalsIgnoreCase(admin.getCode())) {
             model.addAttribute("codeError", "验证码不正确");
             return "login";
         }
