@@ -16,15 +16,16 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--<bean id="validator"-->
-          <!--class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">-->
-        <!--&lt;!&ndash;声明输入验证的提供者是hibernate&ndash;&gt;-->
-        <!--<property name="providerClass"-->
-                  <!--value="org.hibernate.validator.HibernateValidator"/>-->
+    <!--验证-->
+    <bean id="validator"
+          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <!--声明输入验证的提供者是hibernate-->
+        <property name="providerClass"
+                  value="org.hibernate.validator.HibernateValidator"/>
+    </bean>
 
-    <!--</bean>-->
-
-    <mvc:annotation-driven/>
+    <!--加入注解-->
+    <mvc:annotation-driven validator="validator"/>
 
     <!--注解扫描的根路径-->
     <context:component-scan base-package="com.baidu"/>
@@ -33,9 +34,9 @@
     <mvc:default-servlet-handler/>
 
     <!--静态资源扫描路径-->
-    <!--<mvc:resources mapping="images/**" location="/resources/images/"/>-->
-    <!--<mvc:resources mapping="js/**" location="/resources/js/"/>-->
-    <!--<mvc:resources mapping="styles/**" location="/resources/styles/"/>-->
+    <mvc:resources mapping="images/**" location="/resources/images/"/>
+    <mvc:resources mapping="js/**" location="/resources/js/"/>
+    <mvc:resources mapping="styles/**" location="/resources/styles/"/>
 
     <!--配置视图解析规则-->
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -45,6 +46,7 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!--mapper-->
     <!--引入db属性文件-->
     <context:property-placeholder location="classpath:db.properties"/>
 
@@ -89,11 +91,19 @@
     <!--6. 配置Mybatis中的mapper接口自动扫描-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--mapper接口代理对象所在的包-->
-        <property name="basePackage" value="com.baidu.cost.mapper"/>
+        <property name="basePackage" value="com.baidu.*.mapper"/>
 
         <!--定义sessionFactory, 引用上面配置的工厂对象-->
         <property name="sqlSessionFactoryBeanName" value="sessionFactory"/>
     </bean>
+
+    <!--文件上传-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--设置上传文件的大小-->
+        <property name="maxUploadSize" value="5244880"/>
+    </bean>
+
 
     <!--配置拦截器-->
     <!--<mvc:interceptors>-->

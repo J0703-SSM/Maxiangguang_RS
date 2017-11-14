@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baidu.admin.mapper.AdminMapper">
+
+    <select id="findByNameAndPwd"
+            parameterType="com.baidu.admin.domain.Admin"
+            resultType="com.baidu.admin.domain.Admin">
+        SELECT * FROM admin_info
+        WHERE name = #{name} AND password = #{password}
+    </select>
+
+
+</mapper>
