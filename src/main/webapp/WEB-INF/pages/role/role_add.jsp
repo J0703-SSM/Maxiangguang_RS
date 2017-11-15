@@ -31,16 +31,16 @@
 <!--导航区域开始-->
 <div id="navi">
     <ul id="menu">
-        <li><a href="/index" class="index_off"></a></li>
+        <li><a href="/index" class="index_on"></a></li>
         <li><a href="/role/role_list" class="role_off"></a></li>
-        <li><a href="/admin_list" class="admin_off"></a></li>
-        <li><a href="/findAllFee" class="fee_off"></a></li>
-        <li><a href="/account_list" class="account_off"></a></li>
-        <li><a href="/service_list" class="service_off"></a></li>
-        <li><a href="/bill_list" class="bill_off"></a></li>
-        <li><a href="/report_list" class="report_off"></a></li>
-        <li><a href="/user_info" class="information_off"></a></li>
-        <li><a href="/user_modi_pwd" class="password_on"></a></li>
+        <li><a href="/admin/admin_list" class="admin_off"></a></li>
+        <li><a href="/fee/findAllFee" class="fee_off"></a></li>
+        <li><a href="/account/account_list" class="account_off"></a></li>
+        <li><a href="/service/service_list" class="service_off"></a></li>
+        <li><a href="/bill/bill_list" class="bill_off"></a></li>
+        <li><a href="/report/report_list" class="report_off"></a></li>
+        <li><a href="/user/user_info" class="information_off"></a></li>
+        <li><a href="/user/user_modi_pwd" class="password_off"></a></li>
     </ul>
 </div>
 <!--导航区域结束-->
@@ -52,14 +52,13 @@
         <div class="text_info clearfix"><span>角色名称：</span></div>
         <div class="input_info">
             <input type="text" class="width200" name="roleName" value="${roleName}"/>
+            <span class="required">*</span>
             <c:choose>
-                <c:when test="${roleNameEr == null || roleNameEr == ''}">
-                    <span class="required">*</span>
-                    <div class="validate_msg_tiny">不能为空, 20个以内的字母,数字,或下划线</div>
+                <c:when test="${(roleNameEr == null || roleNameEr == '')&& (roleName == null || roleName == '')}">
+                    <div class="validate_msg_medium error_msg">不能为空，且为20长度的字母、数字和汉字的组合</div>
                 </c:when>
                 <c:otherwise>
-                    <span class="required">*</span>
-                    <div class="validate_msg_tiny">${roleNameEr}</div>
+                    <div class="validate_msg_medium error_msg">${roleNameEr.defaultMessage}</div>
                 </c:otherwise>
             </c:choose>
         </div>
@@ -68,18 +67,18 @@
             <div class="input_info_scroll">
                 <ul>
                     <c:forEach var="privilege" items="${privilegeList}">
-                        <li><input name="privilege" type="checkbox" value="${privilege.privilegeName}">${privilege.privilegeName}</li>
+                        <li><input name="privilege" type="checkbox"
+                                   value="${privilege.privilegeName}">${privilege.privilegeName}</li>
                     </c:forEach>
                 </ul>
             </div>
+            <span class="required">*</span>
             <c:choose>
                 <c:when test="${privilegeEr == null || privilegeEr == ''}">
-                    <span class="required">*</span>
                     <div class="validate_msg_tiny">至少选择一个权限</div>
                 </c:when>
                 <c:otherwise>
-                    <span class="required">*</span>
-                    <div class="validate_msg_tiny">${privilegeEr}</div>
+                    <div class="validate_msg_tiny">${privilegeEr.defaultMessage}</div>
                 </c:otherwise>
             </c:choose>
 

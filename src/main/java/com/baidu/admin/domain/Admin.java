@@ -1,6 +1,10 @@
 package com.baidu.admin.domain;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -9,50 +13,48 @@ import java.util.Date;
 public class Admin {
 
     private int adminId;
+    @NotBlank(message = "不能为空")
+    @Size(min = 3, max = 20, message = "3 ~ 20 位之间")
     private String adminCode;//工号
-    @NotBlank(message = "3 ~ 20 位之间")
+    @NotBlank(message = "不能为空")
+    @Size(min = 3, max = 20, message = "3 ~ 20 位之间")
     private String password;
-    private String code;
-    @NotBlank(message = "3 ~ 20 位之间")
+    @NotBlank(message = "不能为空")
     private String name;
+    @NotBlank(message = "不能为空")
+    @Pattern(regexp = "^(1[3|5|7|8][0-9])\\d{8}$", message = "电话号码格式错误")
     private String telephone;
+    @NotBlank(message = "不能为空")
+    @Email(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", message = "邮箱格式错误")
     private String email;
     private Date enrolldate;
+    private String role;//角色
+    private String code;//验证码
+
+    @NotBlank(message = "不能为空")
+    @Size(max = 30, message = "30长度以内的字母、数字和下划线的组合")
+    private String newPassword;
+    @NotBlank(message = "不能为空")
+    @Size(max = 30, message = "30长度以内的字母、数字和下划线的组合")
+    private String reNewPassword;
 
     public Admin() {
     }
 
-    public Admin(String adminCode, String password) {
-        this.adminCode = adminCode;
-        this.password = password;
-    }
-
-    public Admin(String adminCode, String password, String code) {
-        this.adminCode = adminCode;
-        this.password = password;
-        this.code = code;
-    }
-
-    public Admin(String adminCode, String password, String name, String telephone, String email, Date enrolldate) {
+    public Admin(String adminCode, String password, String name, String telephone, String email, Date enrolldate, String role, String code, String newPassword, String reNewPassword) {
         this.adminCode = adminCode;
         this.password = password;
         this.name = name;
         this.telephone = telephone;
         this.email = email;
         this.enrolldate = enrolldate;
-    }
-
-    public Admin(String adminCode, String password, String code, String name, String telephone, String email, Date enrolldate) {
-        this.adminCode = adminCode;
-        this.password = password;
+        this.role = role;
         this.code = code;
-        this.name = name;
-        this.telephone = telephone;
-        this.email = email;
-        this.enrolldate = enrolldate;
+        this.newPassword = newPassword;
+        this.reNewPassword = reNewPassword;
     }
 
-    public Admin(int adminId, String adminCode, String password, String name, String telephone, String email, Date enrolldate) {
+    public Admin(int adminId, String adminCode, String password, String name, String telephone, String email, Date enrolldate, String role, String code, String newPassword, String reNewPassword) {
         this.adminId = adminId;
         this.adminCode = adminCode;
         this.password = password;
@@ -60,17 +62,10 @@ public class Admin {
         this.telephone = telephone;
         this.email = email;
         this.enrolldate = enrolldate;
-    }
-
-    public Admin(int adminId, String adminCode, String password, String code, String name, String telephone, String email, Date enrolldate) {
-        this.adminId = adminId;
-        this.adminCode = adminCode;
-        this.password = password;
+        this.role = role;
         this.code = code;
-        this.name = name;
-        this.telephone = telephone;
-        this.email = email;
-        this.enrolldate = enrolldate;
+        this.newPassword = newPassword;
+        this.reNewPassword = reNewPassword;
     }
 
     @Override
@@ -79,12 +74,39 @@ public class Admin {
                 "adminId=" + adminId +
                 ", adminCode='" + adminCode + '\'' +
                 ", password='" + password + '\'' +
-                ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", email='" + email + '\'' +
                 ", enrolldate=" + enrolldate +
+                ", role='" + role + '\'' +
+                ", code='" + code + '\'' +
+                ", newPassword='" + newPassword + '\'' +
+                ", reNewPassword='" + reNewPassword + '\'' +
                 '}';
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getReNewPassword() {
+        return reNewPassword;
+    }
+
+    public void setReNewPassword(String reNewPassword) {
+        this.reNewPassword = reNewPassword;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getCode() {

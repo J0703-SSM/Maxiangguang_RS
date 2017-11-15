@@ -16,6 +16,7 @@ import java.util.List;
  * Created by dllo on 17/11/10.
  */
 @Controller
+@RequestMapping("/fee")
 public class CostController {
 
     @Qualifier("costService")
@@ -42,6 +43,8 @@ public class CostController {
      */
     @RequestMapping("/preparedAdd")
     public String preparedAdd() {
+
+
         return "fee/fee_add";
     }
 
@@ -154,7 +157,7 @@ public class CostController {
         pageBean.setPs(5);
 
         // 设置url, 用于点击页面查询
-        pageBean.setUrl("/findAllFee");
+        pageBean.setUrl("/fee/findAllFee");
     }
 
     /**
@@ -176,5 +179,22 @@ public class CostController {
 
         return "fee/fee_list";
     }
+
+    @RequestMapping("/fee_detail")
+    public String feeDetailPrep(Cost cost, Model model){
+
+        cost = costService.findById(cost.getCostId());
+
+        System.out.println(cost);
+
+        model.addAttribute("cost", cost);
+
+        return "fee/fee_detail";
+    }
+
+
+
+
+
 
 }

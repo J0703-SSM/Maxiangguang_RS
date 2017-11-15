@@ -2,6 +2,7 @@ package com.baidu.role.service;
 
 import com.baidu.base.domain.PageBean;
 import com.baidu.role.domain.Role;
+import com.baidu.role.domain.RoleAndPrivilege;
 
 import java.util.List;
 
@@ -16,4 +17,16 @@ public interface RoleService {
 
 
     Role findByName(String roleName);
+
+    void insert(Role role);
+
+    void insertRoleAndPrivilege(RoleAndPrivilege rp);
+
+    Role findById(int roleId);
+
+    void update(Role role);
+
+    void deleteRoleAndPrivilege(int roleId);
+
+    void deleteById(int roleId);
 }

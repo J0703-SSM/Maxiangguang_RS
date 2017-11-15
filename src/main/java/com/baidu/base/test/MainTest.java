@@ -1,5 +1,7 @@
 package com.baidu.base.test;
 
+import com.baidu.admin.domain.Admin;
+import com.baidu.admin.mapper.AdminMapper;
 import com.baidu.base.domain.PageBean;
 import com.baidu.cost.domain.Cost;
 import com.baidu.cost.mapper.CostMapper;
@@ -68,11 +70,27 @@ public class MainTest {
     @Test
     public void testFindRole(){
         RoleMapper roleMapper = (RoleMapper) context.getBean("roleMapper");
-        List<Role> all = roleMapper.findAll();
-        for (Role role : all) {
-            System.out.println(role);
-        }
+//        List<Role> all = roleMapper.findAll();
+//        for (Role role : all) {
+//            System.out.println(role);
+//        }
+
+        Role byId = roleMapper.findByName("123");
+        System.out.println(byId);
     }
+
+
+    @Test
+    public void testFindAdmin(){
+        AdminMapper adminMapper = (AdminMapper) context.getBean("adminMapper");
+        Admin admin = new Admin();
+        admin.setAdminCode("ADMIN");
+        admin.setPassword("123");
+        Admin admin1 = adminMapper.findByNameAndPwd(admin);
+        System.out.println(admin1);
+    }
+
+
 
 
 }

@@ -6,16 +6,19 @@
     <title></title>
     <link type="text/css" rel="stylesheet" media="all" href="/resources/styles/global.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="/resources/styles/global_color.css"/>
+    <script src="/resources/js/jquery-3.2.1.js"></script>
     <script language="javascript" type="text/javascript">
-        function deleteRole() {
+        function deleteRole(param) {
             var r = window.confirm("确定要删除此角色吗？");
-            $.post({
-                type: "post",
+            $.ajax({
                 url: "/role/delete_role",
                 data: {
-                    roleId: $("").val()
+                    roleId: param
                 }
             });
+            // 删除某一行
+            var rowid = "#" + param;
+            $(rowid).remove();
             document.getElementById("operate_result_info").style.display = "block";
         }
     </script>
@@ -30,16 +33,16 @@
 <!--导航区域开始-->
 <div id="navi">
     <ul id="menu">
-        <li><a href="/index" class="index_off"></a></li>
+        <li><a href="/index" class="index_on"></a></li>
         <li><a href="/role/role_list" class="role_off"></a></li>
-        <li><a href="/admin_list" class="admin_off"></a></li>
-        <li><a href="/findAllFee" class="fee_off"></a></li>
-        <li><a href="/account_list" class="account_off"></a></li>
-        <li><a href="/service_list" class="service_off"></a></li>
-        <li><a href="/bill_list" class="bill_off"></a></li>
-        <li><a href="/report_list" class="report_off"></a></li>
-        <li><a href="/user_info" class="information_off"></a></li>
-        <li><a href="/user_modi_pwd" class="password_on"></a></li>
+        <li><a href="/admin/admin_list" class="admin_off"></a></li>
+        <li><a href="/fee/findAllFee" class="fee_off"></a></li>
+        <li><a href="/account/account_list" class="account_off"></a></li>
+        <li><a href="/service/service_list" class="service_off"></a></li>
+        <li><a href="/bill/bill_list" class="bill_off"></a></li>
+        <li><a href="/report/report_list" class="report_off"></a></li>
+        <li><a href="/user/user_info" class="information_off"></a></li>
+        <li><a href="/user/user_modi_pwd" class="password_off"></a></li>
     </ul>
 </div>
 <!--导航区域结束-->
@@ -52,7 +55,7 @@
         </div>
         <!--删除的操作提示-->
         <div id="operate_result_info" class="operate_success">
-            <img src="../images/close.png" onclick="this.parentNode.style.display='none';"/>
+            <img src="/resources/images/close.png" onclick="this.parentNode.style.display='none';"/>
             删除成功！
         </div> <!--删除错误！该角色被使用，不能删除。-->
         <!--数据区域：用表格展示数据-->
@@ -65,14 +68,17 @@
                     <th class="td_modi"></th>
                 </tr>
                 <c:forEach var="role" items="${pageBean.beanList}">
-                    <tr>
+                    <tr id="${role.roleId}">
                         <td>${role.roleId}</td>
                         <td>${role.roleName}</td>
-                        <td>${role.privilege}</td>
+                        <td>${role.privilege}
+                            <c:if test="${role.privilege == null}">暂无权限</c:if>
+
+                        </td>
                         <td>
                             <input type="button" value="修改" class="btn_modify"
                                    onclick="location.href='/role/role_modiPrep?roleId=${role.roleId}';"/>
-                            <input type="button" value="删除" class="btn_delete" onclick="deleteRole();"/>
+                            <input type="button" value="删除" class="btn_delete" onclick="deleteRole(${role.roleId});"/>
                         </td>
                     </tr>
                 </c:forEach>

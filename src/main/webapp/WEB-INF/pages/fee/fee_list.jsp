@@ -31,13 +31,13 @@
         function startFee(param) {
             var r = window.confirm("确定要启用此资费吗？资费启用后将不能修改和删除。");
             $.post({
-                url: "/startFee",
+                url: "/cost/startFee",
                 data: {
                     costId: param
                 }
             });
 
-            location.href = "/findAllFee";
+            location.href = "/cost/findAllFee";
 
             document.getElementById("operate_result_info").style.display = "block";
         }
@@ -45,12 +45,12 @@
         function deleteFee(param) {
             var r = window.confirm("确定要删除此资费吗？");
             $.post({
-                url: "/deleteFee",
+                url: "/cost/deleteFee",
                 data: {
                     costId: param
                 }
             });
-            location.href = "/findAllFee";
+            location.href = "/cost/findAllFee";
             document.getElementById("operate_result_info").style.display = "block"
         }
     </script>
@@ -65,16 +65,16 @@
 <!--导航区域开始-->
 <div id="navi">
     <ul id="menu">
-        <li><a href="/index" class="index_off"></a></li>
+        <li><a href="/index" class="index_on"></a></li>
         <li><a href="/role/role_list" class="role_off"></a></li>
-        <li><a href="/admin_list" class="admin_off"></a></li>
-        <li><a href="/findAllFee" class="fee_off"></a></li>
-        <li><a href="/account_list" class="account_off"></a></li>
-        <li><a href="/service_list" class="service_off"></a></li>
-        <li><a href="/bill_list" class="bill_off"></a></li>
-        <li><a href="/report_list" class="report_off"></a></li>
-        <li><a href="/user_info" class="information_off"></a></li>
-        <li><a href="/user_modi_pwd" class="password_on"></a></li>
+        <li><a href="/admin/admin_list" class="admin_off"></a></li>
+        <li><a href="/fee/findAllFee" class="fee_off"></a></li>
+        <li><a href="/account/account_list" class="account_off"></a></li>
+        <li><a href="/service/service_list" class="service_off"></a></li>
+        <li><a href="/bill/bill_list" class="bill_off"></a></li>
+        <li><a href="/report/report_list" class="report_off"></a></li>
+        <li><a href="/user/user_info" class="information_off"></a></li>
+        <li><a href="/user/user_modi_pwd" class="password_off"></a></li>
     </ul>
 </div>
 <!--导航区域结束-->
@@ -91,7 +91,7 @@
                 <input type="hidden" name="rankBaseD" value="desc" id="i2"/>
             </form>
         </div>
-        <input type="button" value="增加" class="btn_add" onclick="location.href='/preparedAdd';"/>
+        <input type="button" value="增加" class="btn_add" onclick="location.href='/cost/preparedAdd';"/>
     </div>
     <!--启用操作的操作提示-->
     <div id="operate_result_info" class="operate_success">
@@ -115,7 +115,7 @@
             <c:forEach var="cost" items="${pageBean.beanList}">
                 <tr>
                     <td id="t1">${cost.costId}</td>
-                    <td><a href="fee_detail.jsp">${cost.costName}</a></td>
+                    <td><a href="/fee/fee_detail?costId=${cost.costId}">${cost.costName}</a></td>
                     <td><c:if test="${cost.baseDuration != 0}">${cost.baseDuration}</c:if></td>
                     <td><c:if test="${cost.baseCost != 0}">${cost.baseCost}</c:if></td>
                     <td><c:if test="${cost.unitCost != 0}">${cost.unitCost}</c:if></td>

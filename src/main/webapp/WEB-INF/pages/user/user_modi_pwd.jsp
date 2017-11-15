@@ -1,4 +1,5 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title></title>
@@ -15,40 +16,48 @@
         <!--导航区域开始-->
         <div id="navi">
             <ul id="menu">
-                <li><a href="/index" class="index_off"></a></li>
+                <li><a href="/index" class="index_on"></a></li>
                 <li><a href="/role/role_list" class="role_off"></a></li>
-                <li><a href="/admin_list" class="admin_off"></a></li>
-                <li><a href="/findAllFee" class="fee_off"></a></li>
-                <li><a href="/account_list" class="account_off"></a></li>
-                <li><a href="/service_list" class="service_off"></a></li>
-                <li><a href="/bill_list" class="bill_off"></a></li>
-                <li><a href="/report_list" class="report_off"></a></li>
-                <li><a href="/user_info" class="information_off"></a></li>
-                <li><a href="/user_modi_pwd" class="password_on"></a></li>
+                <li><a href="/admin/admin_list" class="admin_off"></a></li>
+                <li><a href="/fee/findAllFee" class="fee_off"></a></li>
+                <li><a href="/account/account_list" class="account_off"></a></li>
+                <li><a href="/service/service_list" class="service_off"></a></li>
+                <li><a href="/bill/bill_list" class="bill_off"></a></li>
+                <li><a href="/report/report_list" class="report_off"></a></li>
+                <li><a href="/user/user_info" class="information_off"></a></li>
+                <li><a href="/user/user_modi_pwd" class="password_off"></a></li>
             </ul>
         </div>
         <!--导航区域结束-->
         <div id="main">      
             <!--保存操作后的提示信息：成功或者失败-->      
             <div id="save_result_info" class="save_success">保存成功！</div><!--保存失败，旧密码错误！-->
-            <form action="" method="" class="main_form">
+            <form action="/user/user_update_pwd" method="post" class="main_form">
                 <div class="text_info clearfix"><span>旧密码：</span></div>
                 <div class="input_info">
-                    <input type="password" class="width200"  /><span class="required">*</span>
-                    <div class="validate_msg_medium">30长度以内的字母、数字和下划线的组合</div>
+                    <input type="password" class="width200" name="password" value="${oldPwd}"/><span class="required">*</span>
+                    <div class="validate_msg_medium">${passwordEr.defaultMessage}
+                        <c:if test="${passwordEr == null || passwordEr == ''}">30长度以内的字母、数字和下划线的组合</c:if>
+                    </div>
                 </div>
                 <div class="text_info clearfix"><span>新密码：</span></div>
                 <div class="input_info">
-                    <input type="password"  class="width200" /><span class="required">*</span>
-                    <div class="validate_msg_medium">30长度以内的字母、数字和下划线的组合</div>
+                    <input type="password"  class="width200" name="newPassword" value="${newPwd}" /><span class="required">*</span>
+                    <div class="validate_msg_medium">
+                        ${newPasswordEr.defaultMessage}
+                        <c:if test="${newPasswordEr == null || newPasswordEr == ''}">30长度以内的字母、数字和下划线的组合</c:if>
+                    </div>
                 </div>
                 <div class="text_info clearfix"><span>重复新密码：</span></div>
                 <div class="input_info">
-                    <input type="password" class="width200"  /><span class="required">*</span>
-                    <div class="validate_msg_medium">两次新密码必须相同</div>
+                    <input type="password" class="width200" name="reNesPassword"/><span class="required">*</span>
+                    <div class="validate_msg_medium">
+                        ${reNewPasswordEr.defaultMessage}
+                        <c:if test="${reNewPasswordEr == null || reNewPasswordEr == ''}">两次新密码必须相同</c:if>
+                    </div>
                 </div>
                 <div class="button_info clearfix">
-                    <input type="button" value="保存" class="btn_save" onclick="showResult();" />
+                    <input type="submit" value="保存" class="btn_save" onclick="showResult();" />
                     <input type="button" value="取消" class="btn_save" />
                 </div>
             </form>  

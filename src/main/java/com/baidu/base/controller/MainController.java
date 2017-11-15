@@ -3,6 +3,7 @@ package com.baidu.base.controller;
 import com.baidu.admin.domain.Admin;
 import com.baidu.admin.service.AdminService;
 import com.baidu.base.utils.VerifyCode;
+import com.sun.deploy.net.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
@@ -56,19 +58,19 @@ public class MainController {
      */
     @RequestMapping("/login")
     public String login(@Validated Admin admin, BindingResult result,
-                        HttpSession session, Model model) {
+                        HttpServletRequest request, Model model) {
 
         System.out.println(admin);
         System.out.println(text);
         // 判空
         if (result.hasErrors()) {
-            FieldError nameError = result.getFieldError("name");
+            FieldError nameError = result.getFieldError("adminCode");
             FieldError pwdError = result.getFieldError("password");
 
             model.addAttribute("nameError", nameError);
             model.addAttribute("pwdError", pwdError);
         }
-        model.addAttribute("name", admin.getName());
+        model.addAttribute("name", admin.getAdminCode());
         model.addAttribute("password", admin.getPassword());
         if ("".equals(admin.getCode())){
             model.addAttribute("codeError", "验证码不能为空");
@@ -87,7 +89,8 @@ public class MainController {
             return "login";
         }
 
-        session.setAttribute("admin", admin1);
+
+        request.getServletContext().setAttribute("admin", admin1);
 
         return "index";
     }
@@ -99,36 +102,8 @@ public class MainController {
     }
 
 
-    @RequestMapping("/account_list")
-    public String accountList() {
-        return "account/account_list";
-    }
 
-    @RequestMapping("/service_list")
-    public String serviceList() {
 
-        return "service/service_list";
-    }
-
-    @RequestMapping("/bill_list")
-    public String billList() {
-        return "bill/bill_list";
-    }
-
-    @RequestMapping("/report_list")
-    public String reportList() {
-        return "report/report_list";
-    }
-
-    @RequestMapping("/user_info")
-    public String userList() {
-        return "user/user_info";
-    }
-
-    @RequestMapping("/user_modi_pwd")
-    public String user_modi_pwd() {
-        return "user/user_modi_pwd";
-    }
 
 
 }

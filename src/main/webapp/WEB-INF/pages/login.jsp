@@ -14,7 +14,7 @@
         <form action="/login" method="post">
             <tr>
                 <td class="login_info">账号：</td>
-                <td colspan="2"><input name="name" type="text" class="width150" value="${name}" /></td>
+                <td colspan="2"><input name="adminCode" type="text" class="width150" value="${name}" /></td>
                 <td class="login_error_info"><span class="required">
                     <c:choose>
                         <c:when test="${(nameError == '' || nameError == null) && (name== ''||name==null)}">30长度的字母、数字和下划线</c:when>

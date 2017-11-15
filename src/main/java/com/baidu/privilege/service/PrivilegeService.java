@@ -10,4 +10,6 @@ import java.util.List;
 public interface PrivilegeService {
 
     List<Privilege> findAll();
+
+    Privilege findByName(String s);
 }

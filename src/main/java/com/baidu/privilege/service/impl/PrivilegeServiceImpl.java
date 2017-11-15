@@ -21,4 +21,9 @@ public class PrivilegeServiceImpl implements PrivilegeService {
     public List<Privilege> findAll() {
         return privilegeMapper.findAll();
     }
+
+    @Override
+    public Privilege findByName(String s) {
+        return privilegeMapper.findByName(s);
+    }
 }

@@ -11,4 +11,5 @@ public interface PrivilegeMapper {
 
     List<Privilege> findAll();
 
+    Privilege findByName(String s);
 }
