@@ -36,23 +36,23 @@
                 <div class="text_info clearfix"><span>旧密码：</span></div>
                 <div class="input_info">
                     <input type="password" class="width200" name="password" value="${oldPwd}"/><span class="required">*</span>
-                    <div class="validate_msg_medium">${passwordEr.defaultMessage}
-                        <c:if test="${passwordEr == null || passwordEr == ''}">30长度以内的字母、数字和下划线的组合</c:if>
+                    <div class="validate_msg_medium">${passwordEr}
+                        <c:if test="${(passwordEr == null || passwordEr == '')&&(oldPwd == null || oldPwd == '')}">30长度以内的字母、数字和下划线的组合</c:if>
                     </div>
                 </div>
                 <div class="text_info clearfix"><span>新密码：</span></div>
                 <div class="input_info">
                     <input type="password"  class="width200" name="newPassword" value="${newPwd}" /><span class="required">*</span>
                     <div class="validate_msg_medium">
-                        ${newPasswordEr.defaultMessage}
-                        <c:if test="${newPasswordEr == null || newPasswordEr == ''}">30长度以内的字母、数字和下划线的组合</c:if>
+                        ${newPasswordEr}
+                        <c:if test="${(newPasswordEr == null || newPasswordEr == '') && (newPwd ==null||newPwd=='')}">30长度以内的字母、数字和下划线的组合</c:if>
                     </div>
                 </div>
                 <div class="text_info clearfix"><span>重复新密码：</span></div>
                 <div class="input_info">
-                    <input type="password" class="width200" name="reNesPassword"/><span class="required">*</span>
+                    <input type="password" class="width200" name="reNewPassword" /><span class="required">*</span>
                     <div class="validate_msg_medium">
-                        ${reNewPasswordEr.defaultMessage}
+                        ${reNewPasswordEr}
                         <c:if test="${reNewPasswordEr == null || reNewPasswordEr == ''}">两次新密码必须相同</c:if>
                     </div>
                 </div>

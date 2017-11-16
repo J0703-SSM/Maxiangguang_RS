@@ -58,7 +58,7 @@
     <body>
         <!--Logo区域开始-->
         <div id="header">
-            <img src="../images/logo.png" alt="logo" class="left"/>
+            <img src="/resources/images/logo.png" alt="logo" class="left"/>
             <a href="#">[退出]</a>            
         </div>
         <!--Logo区域结束-->
@@ -127,7 +127,7 @@
                 </div>                    
                 <div class="button_info clearfix">
                     <input type="submit" value="保存" class="btn_save"  onclick="showResult();" />
-                    <input type="button" value="取消" class="btn_save" />
+                    <input type="button" value="取消" class="btn_save" onclick="location.href='/fee/findAllFee'"/>
                 </div>
             </form>
         </div>

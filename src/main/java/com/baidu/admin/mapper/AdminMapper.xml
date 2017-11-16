@@ -28,6 +28,38 @@
         GROUP by a.adminId
     </select>
 
+    <!--根据id查询-->
+    <select id="findByAdminId"
+            parameterType="com.baidu.admin.domain.Admin"
+            resultMap="adminMap">
+        SELECT a.adminId id, a.name name,a.password pwd,a.adminCode code,a.telephone tel,a.email email,a.enrolldate date,group_concat(r.roleName SEPARATOR ',') role
+        FROM admin_info a ,role_info r, admin_role ar WHERE
+        a.adminId = #{adminId}
+        AND a.adminId = ar.admin_id
+        and ar.role_id = r.roleId
+        GROUP by a.adminId
+    </select>
+
+    <!--根据adminCode查重-->
+    <select id="findByAdminCode"
+            parameterType="com.baidu.admin.domain.Admin"
+            resultType="com.baidu.admin.domain.Admin">
+        SELECT * FROM admin_info WHERE adminCode = #{adminCode}
+    </select>
+
+    <!--根据email查重-->
+    <select id="findByEmail"
+            parameterType="com.baidu.admin.domain.Admin"
+            resultType="com.baidu.admin.domain.Admin">
+        SELECT * FROM admin_info WHERE email = #{email}
+    </select>
+
+    <!--根据telephone查重-->
+    <select id="findByTel"
+            parameterType="com.baidu.admin.domain.Admin"
+            resultType="com.baidu.admin.domain.Admin">
+        SELECT * FROM admin_info WHERE telephone = #{telephone}
+    </select>
     <!--查询全部-->
     <select id="findAll"
             resultType="com.baidu.admin.domain.Admin">
@@ -52,6 +84,33 @@
         WHERE adminId = #{adminId}
     </update>
 
+
+    <!--修改Admin信息-->
+    <update id="update"
+            parameterType="com.baidu.admin.domain.Admin">
+        UPDATE admin_info SET name = #{name},telephone = #{telephone}, email = #{email}
+        WHERE adminId = #{adminId}
+    </update>
+
+    <!--添加Admin-->
+    <insert id="insertAdmin"
+            parameterType="com.baidu.admin.domain.Admin">
+        INSERT INTO admin_info(adminCode,password,name,telephone,email,enrolldate)
+        VALUES (#{adminCode},#{password},#{name},#{telephone},#{email},#{enrolldate})
+    </insert>
+
+    <!--添加AdminRole-->
+    <insert id="insertAdminAndRole"
+            parameterType="com.baidu.admin.domain.domain_ext.AdminExt">
+        INSERT INTO admin_role(admin_id, role_id)
+        VALUES (#{adminId}, #{roleId})
+    </insert>
+
+    <!--删除-->
+    <delete id="delete"
+            parameterType="com.baidu.admin.domain.Admin">
+        DELETE FROM admin_info WHERE adminId = #{adminId}
+    </delete>
 
 
 

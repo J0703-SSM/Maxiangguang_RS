@@ -1,6 +1,7 @@
 package com.baidu.admin.service.impl;
 
 import com.baidu.admin.domain.Admin;
+import com.baidu.admin.domain.domain_ext.AdminExt;
 import com.baidu.admin.mapper.AdminMapper;
 import com.baidu.admin.service.AdminService;
 import com.baidu.base.domain.PageBean;
@@ -40,6 +41,46 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void updatePwd(Admin admin1) {
         adminMapper.updatePwd(admin1);
+    }
+
+    @Override
+    public void update(Admin admin) {
+        adminMapper.update(admin);
+    }
+
+    @Override
+    public void insertAdmin(Admin admin) {
+        adminMapper.insertAdmin(admin);
+    }
+
+    @Override
+    public void insertAdminAndRole(AdminExt adminExt) {
+        adminMapper.insertAdminAndRole(adminExt);
+    }
+
+    @Override
+    public Admin findByAdminCode(Admin admin) {
+        return adminMapper.findByAdminCode(admin);
+    }
+
+    @Override
+    public Admin findByEmail(Admin admin) {
+        return adminMapper.findByEmail(admin);
+    }
+
+    @Override
+    public Admin findByTel(Admin admin) {
+        return adminMapper.findByTel(admin);
+    }
+
+    @Override
+    public Admin findByAdminId(Admin admin) {
+        return adminMapper.findByAdminId(admin);
+    }
+
+    @Override
+    public int delete(Admin admin) {
+         return adminMapper.delete(admin);
     }
 
     private void getStart(PageBean<Admin> pageBean) {

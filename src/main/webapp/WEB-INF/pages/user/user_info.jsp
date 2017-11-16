@@ -5,6 +5,7 @@
     <title></title>
     <link type="text/css" rel="stylesheet" media="all" href="/resources/styles/global.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="/resources/styles/global_color.css"/>
+    <script src="/resources/js/jquery-3.2.1.js"/>
     <script language="javascript" type="text/javascript">
         //保存成功的提示信息
         function showResult() {
@@ -59,29 +60,32 @@
         </div>
         <div class="text_info clearfix"><span>姓名：</span></div>
         <div class="input_info">
-            <input type="text" name="name" value="${admin.name}"/>
+            <input type="text" id="name" name="name" value="${admin.name}" onblur="isString(this.value)"/>
             <span class="required">*</span>
-            <div class="validate_msg_long error_msg">${nameEr.defaultMessage}
+            <div id="test1" class="validate_msg_long error_msg">${nameEr.defaultMessage}
                 <c:if test="${nameEr ==null || nameEr == ''}">20长度以内的汉字、字母的组合</c:if>
             </div>
         </div>
         <div class="text_info clearfix"><span>电话：</span></div>
         <div class="input_info">
-            <input type="text" class="width200" name="telephone" value="${admin.telephone}"/>
-            <div class="validate_msg_medium">${telephoneEr.defaultMessage}
+            <input type="text" id="tel" class="width200" name="telephone" value="${admin.telephone}" onblur="isTelephone(this.value)"/>
+            <div id="test2" class="validate_msg_medium">${telephoneEr.defaultMessage}
                 <c:if test="${telephoneEr ==null || telephoneEr == ''}">电话号码格式：手机或固话</c:if></div>
         </div>
         <div class="text_info clearfix"><span>Email：</span></div>
         <div class="input_info">
-            <input type="text" class="width200" name="email" value="${admin.email}"/>
-            <div class="validate_msg_medium">50长度以内，符合 email 格式</div>
+            <input type="text" id="email" class="width200" name="email" value="${admin.email}" onblur="isEmail(this.value)"/>
+            <div id="test3" class="validate_msg_medium">
+                ${emailEr.defaultMessage}
+                <c:if test="${emailEr ==null || emailEr == ''}">50长度以内，符合 email 格式</c:if>
+            </div>
         </div>
         <div class="text_info clearfix"><span>创建时间：</span></div>
         <div class="input_info"><input type="text" readonly="readonly" class="readonly" name="enrolldate"
                                        value="${admin.enrolldate}"/></div>
         <div class="button_info clearfix">
             <input type="submit" value="保存" class="btn_save" onclick="showResult();"/>
-            <input type="button" value="取消" class="btn_save"/>
+            <input type="button" value="取消" class="btn_save" onclick="location.href = '/index'"/>
         </div>
     </form>
 </div>
@@ -90,5 +94,32 @@
     <p>[源自北美的技术，最优秀的师资，最真实的企业环境，最适用的实战项目]</p>
     <p>版权所有(C)云科技有限公司 </p>
 </div>
+<script>
+    function isEmail(obj){
+        var reg=/^\w{3,}@\w+(\.\w+)+$/;
+        if(!reg.test(obj)){
+            $("#test3").html("<b>请输入正确的邮箱地址</b>");
+        }else{
+            $("#test3").html("");
+        }
+    }
+    function isString(obj){
+        var reg=/^[a-z,A-Z]+$/;
+        if(!reg.test(obj)){
+            $("#test1").html("<b>只能输入字符</b>");
+        }else{
+            $("#test1").html("");
+        }
+    }
+    function isTelephone(obj){
+        var reg1=/^(\d{3,4}\-)?[1-9]\d{6,7}$/;
+        var reg2=/^(\+\d{2,3}\-)?\d{11}$/;
+        if(!reg1.test(obj) || !reg2.test(obj)){
+            $("#test2").html("<b>请输入正确的电话号码！</b>");
+        }else{
+            $("#test2").html("");
+        }
+    }
+</script>
 </body>
 </html>

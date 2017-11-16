@@ -84,8 +84,8 @@ public class MainTest {
     public void testFindAdmin(){
         AdminMapper adminMapper = (AdminMapper) context.getBean("adminMapper");
         Admin admin = new Admin();
-        admin.setAdminCode("ADMIN");
-        admin.setPassword("123");
+        admin.setAdminCode("11");
+        admin.setPassword("111");
         Admin admin1 = adminMapper.findByNameAndPwd(admin);
         System.out.println(admin1);
     }

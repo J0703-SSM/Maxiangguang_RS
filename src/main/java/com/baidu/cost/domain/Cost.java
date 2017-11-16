@@ -2,17 +2,18 @@ package com.baidu.cost.domain;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class Cost {
+
+    private static final String REGEX_NAME = "[\\u4e00-\\u9fa5a-zA-Z\\d]+$";
+
     private Integer costId;
-    @NotBlank(message = "不能为空")
+    @Pattern(regexp = REGEX_NAME,message = "必须由汉字,字母,数字组成")
     private String costName;
-    @NotBlank(message = "不能为空")
     private Integer baseDuration;
-    @NotBlank(message = "不能为空")
     private Double baseCost;
-    @NotBlank(message = "不能为空")
     private Double unitCost;
 
     private Integer status;
@@ -20,7 +21,6 @@ public class Cost {
     private String des;
 
     private Date createTime;
-
     private Date startTime;
 
     private Integer costType;

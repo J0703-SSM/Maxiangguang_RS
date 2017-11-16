@@ -11,7 +11,7 @@
 <body>
 <!--Logo区域开始-->
 <div id="header">
-    <img src="../images/logo.png" alt="logo" class="left"/>
+    <img src="/resources/images/logo.png" alt="logo" class="left"/>
     <a href="#">[退出]</a>
 </div>
 <!--Logo区域结束-->
@@ -93,7 +93,7 @@
             <textarea class="width300 height70 readonly" readonly>${cost.des}</textarea>
         </div>
         <div class="button_info clearfix">
-            <input type="button" value="返回" class="btn_save" onclick="location.href='fee_list.jsp';"/>
+            <input type="button" value="返回" class="btn_save" onclick="location.href='/fee/findAllFee';"/>
         </div>
     </form>
 </div>

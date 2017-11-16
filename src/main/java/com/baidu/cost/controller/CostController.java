@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
@@ -38,13 +41,9 @@ public class CostController {
 
     /**
      * 添加前的页面跳转
-     *
-     * @return
      */
     @RequestMapping("/preparedAdd")
     public String preparedAdd() {
-
-
         return "fee/fee_add";
     }
 
@@ -52,7 +51,32 @@ public class CostController {
      * 添加
      */
     @RequestMapping("/feeAdd")
-    public String feeAdd(Cost cost, Model model, PageBean<Cost> pageBean) {
+    public String feeAdd(@Validated Cost cost, BindingResult result,
+                         Model model, PageBean<Cost> pageBean) {
+
+        // 校验为空
+        if (result.hasErrors()) {
+            FieldError costNameEr = result.getFieldError("costName");
+            FieldError desEr = result.getFieldError("des");
+
+            model.addAttribute("costNameEr", costNameEr);
+            model.addAttribute("desEr", desEr);
+
+            if (costNameEr != null || desEr != null) {
+                virifyCost(cost, model);
+                return "fee/fee_add";
+            }
+
+        }
+        // 不为空的情况
+        if (cost.getBaseCost() != null) {
+            virifyCost(cost, model);
+            if (model.containsAttribute("baseCostEr")
+                    ||model.containsAttribute("baseDurEr")
+                    ||model.containsAttribute("unitCostEr")) {
+                return "fee/fee_add";
+            }
+        }
 
         System.out.println(cost);
         // 添加创建时间和使用状态
@@ -67,6 +91,45 @@ public class CostController {
         model.addAttribute("pageBean", costService.findAll(pageBean));
 
         return "/fee/fee_list";
+    }
+
+    /**
+     *  验证 baseDur,baseCost,unitCost
+     */
+    private void virifyCost(@Validated Cost cost, Model model) {
+        switch (cost.getCostType()) {
+            case 1:
+                if (null == cost.getBaseCost() || "".equals(cost.getBaseCost())) {
+                    model.addAttribute("baseCostEr", "不能为空");
+                } else if (!(cost.getBaseCost() instanceof Double)) {
+                    model.addAttribute("baseCostEr", "输入类型应为数字");
+                }
+                if (null == cost.getBaseDuration() || "".equals(cost.getBaseDuration())) {
+                    model.addAttribute("baseDurEr", "不能为空");
+                }else if (!(cost.getBaseDuration() instanceof Integer)) {
+                    model.addAttribute("baseDurEr", "输入类型应为数字");
+                }
+                if (null == cost.getUnitCost() || "".equals(cost.getUnitCost())) {
+                    model.addAttribute("unitCostEr", "不能为空");
+                }else if (!(cost.getUnitCost() instanceof Double)) {
+                    model.addAttribute("unitCostEr", "输入类型应为数字");
+                }
+                break;
+            case 2:
+                if (null == cost.getBaseCost() || "".equals(cost.getBaseCost())) {
+                    model.addAttribute("baseCostEr", "不能为空");
+                } else if (!(cost.getBaseCost() instanceof Double)) {
+                    model.addAttribute("baseCostEr", "输入类型应为数字");
+                }
+                break;
+            default:
+                if (null == cost.getUnitCost() || "".equals(cost.getUnitCost())) {
+                    model.addAttribute("unitCostEr", "不能为空");
+                }else if (!(cost.getUnitCost() instanceof Double)) {
+                    model.addAttribute("unitCostEr", "输入类型应为数字");
+                }
+                break;
+        }
     }
 
     /**
@@ -100,7 +163,7 @@ public class CostController {
      * 更改资费管理
      */
     @RequestMapping("/updateFee")
-    public String update(Cost cost, Model model){
+    public String update(Cost cost, Model model) {
 
         System.out.println(cost);
 
@@ -117,10 +180,9 @@ public class CostController {
 
     /**
      * 删除
-     *
      */
     @RequestMapping("/deleteFee")
-    public String deleteById(Cost cost){
+    public String deleteById(Cost cost) {
 
         costService.deleteById(cost.getCostId());
         return "fee/fee_list";
@@ -128,10 +190,11 @@ public class CostController {
 
     /**
      * 分页
+     *
      * @return
      */
     @RequestMapping("/findAllFee")
-    public String findAll(PageBean<Cost> pageBean, Model model){
+    public String findAll(PageBean<Cost> pageBean, Model model) {
 
         // 将查询参数封装到pageBean中
         getPageProperties(pageBean);
@@ -144,13 +207,14 @@ public class CostController {
     }
 
     /**
-     *  设置pageBean的参数
+     * 设置pageBean的参数
+     *
      * @param pageBean
      */
     private void getPageProperties(PageBean<Cost> pageBean) {
         int pc = pageBean.getPc();
         // 如果pc小于等于0, 令其等于1
-        if (pc <= 0){
+        if (pc <= 0) {
             pageBean.setPc(1);
         }
         // 显示五条
@@ -164,7 +228,7 @@ public class CostController {
      * 根据baseDuration排序
      */
     @RequestMapping("/feeOrderByBaseDuration")
-    public String feeOrderByBaseDuration(PageBean<Cost> pageBean,String rankBaseC,
+    public String feeOrderByBaseDuration(PageBean<Cost> pageBean, String rankBaseC,
                                          String rankBaseD, Model model) {
 
         System.out.println(rankBaseD);
@@ -181,7 +245,7 @@ public class CostController {
     }
 
     @RequestMapping("/fee_detail")
-    public String feeDetailPrep(Cost cost, Model model){
+    public String feeDetailPrep(Cost cost, Model model) {
 
         cost = costService.findById(cost.getCostId());
 
@@ -191,10 +255,6 @@ public class CostController {
 
         return "fee/fee_detail";
     }
-
-
-
-
 
 
 }

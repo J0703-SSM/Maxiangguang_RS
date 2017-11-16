@@ -31,13 +31,13 @@
         function startFee(param) {
             var r = window.confirm("确定要启用此资费吗？资费启用后将不能修改和删除。");
             $.post({
-                url: "/cost/startFee",
+                url: "/fee/startFee",
                 data: {
                     costId: param
                 }
             });
 
-            location.href = "/cost/findAllFee";
+            location.href = "/fee/findAllFee";
 
             document.getElementById("operate_result_info").style.display = "block";
         }
@@ -45,12 +45,12 @@
         function deleteFee(param) {
             var r = window.confirm("确定要删除此资费吗？");
             $.post({
-                url: "/cost/deleteFee",
+                url: "/fee/deleteFee",
                 data: {
                     costId: param
                 }
             });
-            location.href = "/cost/findAllFee";
+            location.href = "/fee/findAllFee";
             document.getElementById("operate_result_info").style.display = "block"
         }
     </script>
@@ -58,7 +58,7 @@
 <body>
 <!--Logo区域开始-->
 <div id="header">
-    <img src="../images/logo.png" alt="logo" class="left"/>
+    <img src="/resources/images/logo.png" alt="logo" class="left"/>
     <a href="#">[退出]</a>
 </div>
 <!--Logo区域结束-->
@@ -91,7 +91,7 @@
                 <input type="hidden" name="rankBaseD" value="desc" id="i2"/>
             </form>
         </div>
-        <input type="button" value="增加" class="btn_add" onclick="location.href='/cost/preparedAdd';"/>
+        <input type="button" value="增加" class="btn_add" onclick="location.href='/fee/preparedAdd';"/>
     </div>
     <!--启用操作的操作提示-->
     <div id="operate_result_info" class="operate_success">
@@ -136,7 +136,7 @@
                         <c:if test="${cost.status == '0'}">
                             <input type="button" value="启用" class="btn_start" onclick="startFee(${cost.costId});"/>
                             <input type="button" value="修改" class="btn_modify"
-                                   onclick="location.href='/updatePrepared?costId=${cost.costId}';"/>
+                                   onclick="location.href='/fee/updatePrepared?costId=${cost.costId}';"/>
                             <input type="button" value="删除" class="btn_delete" onclick="deleteFee(${cost.costId});"/>
                         </c:if>
                     </td>

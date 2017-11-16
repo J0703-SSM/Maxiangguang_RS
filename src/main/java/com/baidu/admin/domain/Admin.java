@@ -1,6 +1,5 @@
 package com.baidu.admin.domain;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Pattern;
@@ -12,30 +11,29 @@ import java.util.Date;
  */
 public class Admin {
 
+    public static final String REGEX_MOBILE = "(^((13[0-9])|(15[^4,\\D])|(17[0-9])|(18[0-9]))\\d{8}$)||(\\d{3}-\\d{8})||(\\d{4}-\\d{7})";
+    public static final String REGEX_EMAIL = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+
     private int adminId;
-    @NotBlank(message = "不能为空")
     @Size(min = 3, max = 20, message = "3 ~ 20 位之间")
     private String adminCode;//工号
-    @NotBlank(message = "不能为空")
     @Size(min = 3, max = 20, message = "3 ~ 20 位之间")
     private String password;
     @NotBlank(message = "不能为空")
     private String name;
     @NotBlank(message = "不能为空")
-    @Pattern(regexp = "^(1[3|5|7|8][0-9])\\d{8}$", message = "电话号码格式错误")
+    @Pattern(regexp = REGEX_MOBILE, message = "电话号码格式错误")
     private String telephone;
-    @NotBlank(message = "不能为空")
-    @Email(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", message = "邮箱格式错误")
+    @Pattern(regexp = REGEX_EMAIL, message = "邮箱格式错误")
     private String email;
     private Date enrolldate;
+    @NotBlank(message = "至少选一个")
     private String role;//角色
     private String code;//验证码
 
-    @NotBlank(message = "不能为空")
-    @Size(max = 30, message = "30长度以内的字母、数字和下划线的组合")
+    @Size(min = 3, max = 30, message = "3 - 30长度以内的字母、数字和下划线的组合")
     private String newPassword;
     @NotBlank(message = "不能为空")
-    @Size(max = 30, message = "30长度以内的字母、数字和下划线的组合")
     private String reNewPassword;
 
     public Admin() {
