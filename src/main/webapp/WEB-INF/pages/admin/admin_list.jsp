@@ -32,17 +32,11 @@
                 url: "/admin/admin_delete",
                 data: {
                     adminId: param
-                },
-                success: function (result) {
-                    if (result.success()){
-                        // 删除某一行
-                        var rowid = "#" + param;
-                        $(rowid).remove();
-                    }else {
-                        alert("删除失败!")
-                    }
                 }
             });
+            // 删除某一行
+            var rowid = "#" + param;
+            $(rowid).remove();
 
             document.getElementById("operate_result_info").style.display = "block";
         }

@@ -228,18 +228,10 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping("/admin_delete")
-    public Result<Admin> adminDelete(Admin admin) {
-
-        Result<Admin> result = new Result<>();
+    public void adminDelete(Admin admin) {
 
         int i = adminService.delete(admin);
-        if (i > 0) {
-            result.setSuccess(true);
-        }else {
-            result.setSuccess(false);
-        }
 
-        return result;
     }
 
 }
