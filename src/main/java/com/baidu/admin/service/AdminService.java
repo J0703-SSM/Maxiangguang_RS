@@ -3,6 +3,7 @@ package com.baidu.admin.service;
 
 import com.baidu.admin.domain.Admin;
 import com.baidu.admin.domain.domain_ext.AdminExt;
+import com.baidu.admin.domain.domain_ext.PageBeanExt;
 import com.baidu.base.domain.PageBean;
 
 /**
@@ -44,4 +45,8 @@ public interface AdminService {
     Admin findByAdminId(Admin admin);
 
     int delete(Admin admin);
+
+    void deleteAdminAndRole(Admin admin);
+
+    PageBeanExt findByRoleAndPrivilege(PageBeanExt pageBean);
 }

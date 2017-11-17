@@ -1,17 +1,21 @@
 package com.baidu.role.domain;
 
+import com.baidu.privilege.domain.Privilege;
 import org.hibernate.validator.constraints.NotBlank;
+
+import java.util.List;
 
 /**
  * Created by dllo on 17/11/14.
  */
-public class Role {
+public class Role  {
     private int roleId;
     @NotBlank(message = "角色名不能为空")
     private String roleName;
     @NotBlank(message = "至少选一个")
     private String privilege;
 
+    private List<Privilege> privilegeList;
 
     public Role() {
     }
@@ -38,6 +42,14 @@ public class Role {
                 ", roleName='" + roleName + '\'' +
                 ", privilege='" + privilege + '\'' +
                 '}';
+    }
+
+    public List<Privilege> getPrivilegeList() {
+        return privilegeList;
+    }
+
+    public void setPrivilegeList(List<Privilege> privilegeList) {
+        this.privilegeList = privilegeList;
     }
 
     public String getPrivilege() {

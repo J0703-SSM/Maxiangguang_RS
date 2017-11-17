@@ -35,4 +35,8 @@ public interface AdminMapper {
     Admin findByAdminId(Admin admin);
 
     int delete(Admin admin);
+
+    void deleteAdminAndRole(Admin admin);
+
+    List<Admin> findAllByPrivilegeAndRole(PageBean<Admin> pageBean);
 }

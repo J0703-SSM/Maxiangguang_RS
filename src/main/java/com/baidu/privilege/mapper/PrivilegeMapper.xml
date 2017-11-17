@@ -24,6 +24,7 @@
         GROUP BY r.roleId limit #{start},#{ps}
     </select>
 
+
     <select id="findById" parameterType="int"
             resultType="com.baidu.privilege.domain.Privilege">
         SELECT * FROM privilege_info WHERE privilegeId = #{privilegeId}

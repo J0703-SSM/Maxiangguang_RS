@@ -1,10 +1,12 @@
 package com.baidu.admin.domain;
 
+import com.baidu.role.domain.Role;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by dllo on 17/11/13.
@@ -35,6 +37,9 @@ public class Admin {
     private String newPassword;
     @NotBlank(message = "不能为空")
     private String reNewPassword;
+
+    private List<Role> roleList;
+    private List<String> roles;
 
     public Admin() {
     }
@@ -81,6 +86,22 @@ public class Admin {
                 ", newPassword='" + newPassword + '\'' +
                 ", reNewPassword='" + reNewPassword + '\'' +
                 '}';
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 
     public String getNewPassword() {

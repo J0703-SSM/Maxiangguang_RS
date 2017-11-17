@@ -7,7 +7,7 @@
     <title></title>
     <link type="text/css" rel="stylesheet" media="all" href="/resources/styles/global.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="/resources/styles/global_color.css"/>
-    <script src="/resources/js/jquery-3.2.1.js"/>
+    <script src="/resources/js/jquery-3.2.1.js"></script>
     <script language="javascript" type="text/javascript">
         //显示角色详细信息
         function showDetail(flag, a) {
@@ -20,35 +20,61 @@
         }
         //重置密码
         function resetPwd() {
-            alert("请至少选择一条数据！");
-            //document.getElementById("operate_result_info").style.display = "block";
+            alert("6666")
+            var check = $("input[type=checkbox]:checked");
+            if (check.size == 0) {
+                alert("请至少选择一条数据！");
+            }
+            check.each(function () {
+                var adminId = $(this).attr("name");
+                alert("555");
+                $.post({
+                    url: "/admin/admin_updatePwd",
+                    data: {
+                        adminId: adminId
+                    },
+                    success: function (result) {
+
+                        if(result){
+                            alert("重置密码成功! ")
+                        }else {
+                            alert("重置密码失败! ")
+                        }
+                    }
+                })
+            });
+            document.getElementById("operate_result_info").style.display = "block";
         }
         //删除
         function deleteAdmin(param) {
             var r = window.confirm("确定要删除此管理员吗？");
 
-            $.ajax({
-                type:"post",
+            $.post({
+                type: "post",
                 url: "/admin/admin_delete",
                 data: {
                     adminId: param
                 }
+
             });
             // 删除某一行
             var rowid = "#" + param;
             $(rowid).remove();
-
             document.getElementById("operate_result_info").style.display = "block";
         }
+
         //全选
         function selectAdmins(inputObj) {
-            var inputArray = document.getElementById("datalist").getElementsByTagName("input");
+            var first = document.getElementById("datalist");
+            var inputArray = first.getElementsByTagName("input");
             for (var i = 1; i < inputArray.length; i++) {
                 if (inputArray[i].type == "checkbox") {
                     inputArray[i].checked = inputObj.checked;
                 }
             }
         }
+
+
     </script>
 </head>
 <body>
@@ -76,37 +102,34 @@
 <!--导航区域结束-->
 <!--主要区域开始-->
 <div id="main">
-    <form action="" method="">
+    <form action="/admin/admin_find" method="post">
         <!--查询-->
         <div class="search_add">
             <div>
                 模块：
-                <select id="selModules" class="select_search" name="role">
-                    <option value="">角色管理</option>
-                    <option>管理员管理</option>
-                    <option>资费管理</option>
-                    <option>账务账号</option>
-                    <option>业务账号</option>
-                    <option>账单管理</option>
-                    <option>报表</option>
+                <select id="selModules" class="select_search" name="privilegeId">
+                    <option value="-1">全部</option>
+                    <c:forEach var="privilege" items="${privilegeList}">
+                        <option value="${privilege.privilegeId}">${privilege.privilegeName}</option>
+                    </c:forEach>
                 </select>
             </div>
-            <div>角色：<input type="text" value="" class="text_search width200"/></div>
-            <div><input type="button" value="搜索" class="btn_search"/></div>
+            <div>角色：<input type="text" id="role" name="role" class="text_search width200" placeholder="例如:管理员"/></div>
+            <div><input type="submit" value="搜索" class="btn_search"/></div>
             <input type="button" value="密码重置" class="btn_add" onclick="resetPwd();"/>
             <input type="button" value="增加" class="btn_add" onclick="location.href='/admin/admin_addPrep';"/>
         </div>
         <!--删除和密码重置的操作提示-->
         <div id="operate_result_info" class="operate_fail">
             <img src="/resources/images/close.png" onclick="this.parentNode.style.display='none';"/>
-            <span>删除失败！数据并发错误。</span><!--密码重置失败！数据并发错误。-->
+            <span>删除成功！</span><!--密码重置失败！数据并发错误。-->
         </div>
         <!--数据区域：用表格展示数据-->
         <div id="data">
             <table id="datalist">
                 <tr>
                     <th class="th_select_all">
-                        <input type="checkbox" onclick="selectAdmins(this);"/>
+                        <input type="checkbox" onclick="selectAdmins(this);" name=0/>
                         <span>全选</span>
                     </th>
                     <th>管理员ID</th>
@@ -120,7 +143,7 @@
                 </tr>
                 <c:forEach var="admin" items="${pageBean.beanList}">
                     <tr id="${admin.adminId}">
-                        <td><input type="checkbox"/></td>
+                        <td><input type="checkbox" name="${admin.adminId}"/></td>
                         <td>${admin.adminId}</td>
                         <td>${admin.name}</td>
                         <td>${admin.adminCode}</td>
@@ -128,17 +151,36 @@
                         <td>${admin.email}</td>
                         <td><fmt:formatDate value="${admin.enrolldate}" pattern="yyyy-MM-dd"/></td>
                         <td>
-                            <a class="summary" onmouseover="showDetail(true,this);"
-                               onmouseout="showDetail(false,this);">${admin.role}</a>
+                            <a class="summary"
+                                    <c:if test="${admin.roles.size() > 1 || admin.roleList.size() > 1}">
+                                        onmouseover="showDetail(true,this);"
+                                        onmouseout="showDetail(false,this);"
+                                    </c:if>>
+                                    ${admin.roleList.get(0).roleName}
+                                <c:choose>
+                                    <c:when test="${admin.roles.size()>1}">
+                                        ${admin.roles.get(0)}...
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${admin.roles.get(0)}
+                                    </c:otherwise>
+                                </c:choose>
+                            </a>
                             <!--浮动的详细信息-->
                             <div class="detail_info">
-                                    ${admin.role}
+                                <c:forEach items="${admin.roles}" var="r">
+                                    ${r}
+                                </c:forEach>
+                                <c:forEach items="${admin.roleList}" var="role">
+                                    ${role.roleName}
+                                </c:forEach>
                             </div>
                         </td>
                         <td class="td_modi">
                             <input type="button" value="修改" class="btn_modify"
                                    onclick="location.href='/admin/admin_modiPrep?adminId=${admin.adminId}';"/>
-                            <input type="button" value="删除" class="btn_delete" onclick="deleteAdmin(${admin.adminId});"/>
+                            <input type="button" value="删除" class="btn_delete"
+                                   onclick="deleteAdmin(${admin.adminId});"/>
                         </td>
                     </tr>
                 </c:forEach>

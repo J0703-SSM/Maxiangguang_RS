@@ -2,9 +2,12 @@ package com.baidu.admin.controller;
 
 import com.baidu.admin.domain.Admin;
 import com.baidu.admin.domain.domain_ext.AdminExt;
+import com.baidu.admin.domain.domain_ext.PageBeanExt;
 import com.baidu.admin.service.AdminService;
 import com.baidu.base.domain.PageBean;
 import com.baidu.base.utils.Result;
+import com.baidu.privilege.domain.Privilege;
+import com.baidu.privilege.service.PrivilegeService;
 import com.baidu.role.domain.Role;
 import com.baidu.role.service.RoleService;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +36,9 @@ public class AdminController {
     @Resource
     private RoleService roleService;
 
+    @Resource
+    private PrivilegeService privilegeService;
+
     /**
      * 查询所有
      */
@@ -41,10 +48,22 @@ public class AdminController {
         getPageProperties(pageBean);
 
         pageBean = adminService.findAll(pageBean);
-        List<Role> roleList = roleService.findAll();
+
+        for (Admin admin : pageBean.getBeanList()) {
+            List<String> list = new ArrayList<>();
+            if (null != admin.getRole() || "".equals(admin.getRole())) {
+                for (String s : admin.getRole().split(",")) {
+                    list.add(s);
+                }
+                admin.setRoles(list);
+            }
+        }
 
         model.addAttribute("pageBean", pageBean);
-        model.addAttribute("roleList", roleList);
+
+
+        List<Privilege> privilegeList = privilegeService.findAll();
+        model.addAttribute("privilegeList", privilegeList);
 
         return "admin/admin_list";
     }
@@ -226,11 +245,58 @@ public class AdminController {
         return "admin/admin_list";
     }
 
-    @ResponseBody
     @RequestMapping("/admin_delete")
     public void adminDelete(Admin admin) {
 
-        int i = adminService.delete(admin);
+        System.out.println(admin);
+
+        adminService.delete(admin);
+
+        adminService.deleteAdminAndRole(admin);
+
+    }
+
+    /**
+     * 高级查询
+     *
+     * @param pageBean
+     * @param model
+     * @return
+     */
+    @RequestMapping("/admin_find")
+    public String adminFind(PageBeanExt pageBean,
+                            Model model) {
+
+        getPageProperties(pageBean);
+
+        // 查询
+        pageBean = adminService.findByRoleAndPrivilege(pageBean);
+
+        for (Admin admin : pageBean.getBeanList()) {
+            System.out.println(admin);
+            for (Role role : admin.getRoleList()) {
+                System.out.println(role);
+            }
+        }
+
+        model.addAttribute("pageBean", pageBean);
+
+        // 用于权限显示
+        List<Privilege> privilegeList = privilegeService.findAll();
+        model.addAttribute("privilegeList", privilegeList);
+
+        return "admin/admin_list";
+    }
+
+    @ResponseBody
+    @RequestMapping("/admin_updatePwd")
+    public void adminUpdatePwd(Admin admin) {
+
+        if (admin.getAdminId() != 0) {
+
+            admin.setPassword("123456");
+            adminService.updatePwd(admin);
+        }
 
     }
 

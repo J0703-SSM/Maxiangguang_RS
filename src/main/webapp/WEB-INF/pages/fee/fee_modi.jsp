@@ -137,5 +137,20 @@
             <br />
             <span>版权所有(C)云科技有限公司 </span>
         </div>
+
+    <script>
+        window.onload = function () {
+            if (${cost.costType == 1}){
+                feeTypeChange(1)
+            }
+            if (${cost.costType == 2}){
+                feeTypeChange(2)
+            }
+            if (${cost.costType == 3}){
+                feeTypeChange(3)
+            }
+
+        }
+    </script>
     </body>
 </html>

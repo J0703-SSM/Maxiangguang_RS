@@ -7,6 +7,7 @@ public class Privilege {
     private int privilegeId;
     private String privilegeName;
 
+
     public Privilege() {
     }
 

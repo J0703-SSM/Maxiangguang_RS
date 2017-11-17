@@ -1,5 +1,7 @@
 package com.baidu.base.domain;
 
+import com.baidu.admin.domain.domain_ext.AdminExt;
+
 import java.util.List;
 
 /**
@@ -34,6 +36,7 @@ public class PageBean<T> {
         this.beanList = beanList;
         this.url = url;
     }
+
 
     public int getPc() {
         return pc;

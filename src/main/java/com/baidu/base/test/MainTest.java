@@ -83,11 +83,26 @@ public class MainTest {
     @Test
     public void testFindAdmin(){
         AdminMapper adminMapper = (AdminMapper) context.getBean("adminMapper");
-        Admin admin = new Admin();
-        admin.setAdminCode("11");
-        admin.setPassword("111");
-        Admin admin1 = adminMapper.findByNameAndPwd(admin);
-        System.out.println(admin1);
+//        Admin admin = new Admin();
+//        admin.setAdminCode("11");
+//        admin.setPassword("111");
+//        Admin admin1 = adminMapper.findByNameAndPwd(admin);
+//        System.out.println(admin1);
+
+        PageBean<Admin> pageBean = new PageBean<>();
+        pageBean.setStart(0);
+        pageBean.setPs(5);
+//        List<String> list = new ArrayList<>();
+//        list.add("管理员");
+//        pageBean.setRoles(list);
+//        pageBean.setPrivilegeId(1);
+
+        List<Admin> allByPeivilegeAndRole = adminMapper.findAll1(pageBean);
+
+        for (Admin admin : allByPeivilegeAndRole) {
+            System.out.println(admin);
+        }
+
     }
 
 

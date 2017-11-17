@@ -2,9 +2,11 @@ package com.baidu.admin.service.impl;
 
 import com.baidu.admin.domain.Admin;
 import com.baidu.admin.domain.domain_ext.AdminExt;
+import com.baidu.admin.domain.domain_ext.PageBeanExt;
 import com.baidu.admin.mapper.AdminMapper;
 import com.baidu.admin.service.AdminService;
 import com.baidu.base.domain.PageBean;
+import com.baidu.privilege.domain.Privilege;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -81,6 +83,27 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int delete(Admin admin) {
          return adminMapper.delete(admin);
+    }
+
+    @Override
+    public void deleteAdminAndRole(Admin admin) {
+        adminMapper.deleteAdminAndRole(admin);
+    }
+
+    @Override
+    public PageBeanExt findByRoleAndPrivilege(PageBeanExt pageBean) {
+
+        int pc = pageBean.getPc();
+        int ps = pageBean.getPs();
+        pageBean.setStart((pc -1)*ps);
+
+        pageBean.setTr(adminMapper.findAllByPrivilegeAndRole(pageBean).size());
+
+        List<Admin> adminList = adminMapper.findAllByPrivilegeAndRole(pageBean);
+
+        pageBean.setBeanList(adminList);
+
+        return pageBean;
     }
 
     private void getStart(PageBean<Admin> pageBean) {
