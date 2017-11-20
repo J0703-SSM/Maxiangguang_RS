@@ -11,7 +11,7 @@
 <body class="index">
 <div class="login_box">
     <table>
-        <form action="/login" method="post">
+        <form action="${pageContext.request.contextPath}/login" method="post">
             <tr>
                 <td class="login_info">账号：</td>
                 <td colspan="2"><input name="adminCode" type="text" class="width150" value="${name}" /></td>
@@ -51,9 +51,9 @@
 <script>
     function changeImage() {
         $.ajax({
-            url: "/getVerifyCode",
+            url: "${pageContext.request.contextPath}/getVerifyCode",
             success: function () {
-                $("#verifyCodeImage").attr('src', "/getVerifyCode")
+                $("#verifyCodeImage").attr('src', "${pageContext.request.contextPath}/getVerifyCode")
             }
         })
 

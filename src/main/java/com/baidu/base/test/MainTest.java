@@ -1,5 +1,7 @@
 package com.baidu.base.test;
 
+import com.baidu.account.domain.Account;
+import com.baidu.account.mapper.AccountMapper;
 import com.baidu.admin.domain.Admin;
 import com.baidu.admin.mapper.AdminMapper;
 import com.baidu.base.domain.PageBean;
@@ -101,6 +103,22 @@ public class MainTest {
 
         for (Admin admin : allByPeivilegeAndRole) {
             System.out.println(admin);
+        }
+
+    }
+
+    @Test
+    public void accountTest(){
+
+        AccountMapper accountMapper = (AccountMapper) context.getBean("accountMapper");
+
+        PageBean<Account> pageBean = new PageBean<>();
+        pageBean.setStart(0);
+        pageBean.setPs(5);
+
+        List<Account> all = accountMapper.findAll1(pageBean);
+        for (Account account : all) {
+            System.out.println(account);
         }
 
     }

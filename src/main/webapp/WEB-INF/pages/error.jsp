@@ -20,7 +20,7 @@
                 }
                 else {
                     window.clearInterval(timer);
-                    location.href = "login.jsp";
+                    location.href = "${pageContext.request.contextPath}/login";
                 }
             }
 
@@ -28,7 +28,7 @@
             function resetTimer() {
                 if (timer != null && timer != undefined) {
                     window.clearInterval(timer);
-                    location.href = "login.jsp";
+                    location.href = "${pageContext.request.contextPath}/login";
                 }
             }
         </script> 

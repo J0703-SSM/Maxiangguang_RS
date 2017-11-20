@@ -10,16 +10,21 @@
     <script language="javascript" type="text/javascript">
         function deleteRole(param) {
             var r = window.confirm("确定要删除此角色吗？");
-            $.ajax({
-                url: "/role/delete_role",
-                data: {
-                    roleId: param
-                }
-            });
-            // 删除某一行
-            var rowid = "#" + param;
-            $(rowid).remove();
-            document.getElementById("operate_result_info").style.display = "block";
+            if (r) {
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/role/delete_role",
+                    data: {
+                        roleId: param
+                    }
+                });
+                // 删除某一行
+                var rowid = "#" + param;
+                $(rowid).remove();
+                document.getElementById("operate_result_info").style.display = "block";
+            } else {
+                return "";
+            }
+
         }
     </script>
 </head>
@@ -33,16 +38,16 @@
 <!--导航区域开始-->
 <div id="navi">
     <ul id="menu">
-        <li><a href="/index" class="index_on"></a></li>
-        <li><a href="/role/role_list" class="role_off"></a></li>
-        <li><a href="/admin/admin_list" class="admin_off"></a></li>
-        <li><a href="/fee/findAllFee" class="fee_off"></a></li>
-        <li><a href="/account/account_list" class="account_off"></a></li>
-        <li><a href="/service/service_list" class="service_off"></a></li>
-        <li><a href="/bill/bill_list" class="bill_off"></a></li>
-        <li><a href="/report/report_list" class="report_off"></a></li>
-        <li><a href="/user/user_info" class="information_off"></a></li>
-        <li><a href="/user/user_modi_pwd" class="password_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/index" class="index_on"></a></li>
+        <li><a href="${pageContext.request.contextPath}/role/role_list" class="role_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/admin_list" class="admin_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/fee/findAllFee" class="fee_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/account/account_list" class="account_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/service/service_list" class="service_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/bill/bill_list" class="bill_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/report/report_list" class="report_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/user/user_info" class="information_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/user/user_modi_pwd" class="password_off"></a></li>
     </ul>
 </div>
 <!--导航区域结束-->
@@ -77,7 +82,7 @@
                         </td>
                         <td>
                             <input type="button" value="修改" class="btn_modify"
-                                   onclick="location.href='/role/role_modiPrep?roleId=${role.roleId}';"/>
+                                   onclick="location.href='${pageContext.request.contextPath}/role/role_modiPrep?roleId=${role.roleId}';"/>
                             <input type="button" value="删除" class="btn_delete" onclick="deleteRole(${role.roleId});"/>
                         </td>
                     </tr>
@@ -101,7 +106,7 @@
                              * 尾溢出: end > tp , end = tp
              --%>
             <c:choose>
-                <%-- 总页数 <= 10时 --%>
+                <%-- 总页数 <= 10 时 --%>
                 <c:when test="${pageBean.tp <= 10}">
                     <c:set value="1" var="begin"/>
                     <c:set value="${pageBean.tp}" var="end"/>

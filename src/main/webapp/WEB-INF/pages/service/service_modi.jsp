@@ -30,16 +30,16 @@
         <!--导航区域开始-->
         <div id="navi">
             <ul id="menu">
-                <li><a href="/index" class="index_on"></a></li>
-                <li><a href="/role/role_list" class="role_off"></a></li>
-                <li><a href="/admin/admin_list" class="admin_off"></a></li>
-                <li><a href="/fee/findAllFee" class="fee_off"></a></li>
-                <li><a href="/account/account_list" class="account_off"></a></li>
-                <li><a href="/service/service_list" class="service_off"></a></li>
-                <li><a href="/bill/bill_list" class="bill_off"></a></li>
-                <li><a href="/report/report_list" class="report_off"></a></li>
-                <li><a href="/user/user_info" class="information_off"></a></li>
-                <li><a href="/user/user_modi_pwd" class="password_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/index" class="index_on"></a></li>
+                <li><a href="${pageContext.request.contextPath}/role/role_list" class="role_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/admin/admin_list" class="admin_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/fee/findAllFee" class="fee_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/account/account_list" class="account_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/service/service_list" class="service_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/bill/bill_list" class="bill_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/report/report_list" class="report_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/user/user_info" class="information_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/user/user_modi_pwd" class="password_off"></a></li>
             </ul>
         </div>
         <!--导航区域结束-->

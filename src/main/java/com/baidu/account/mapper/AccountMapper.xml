@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.baidu.account.mapper.AccountMapper">
+
+    <sql id="accountSql">
+        account.account_id,
+        account.recommender_id,
+        account.login_name,
+        account.login_passWd,
+        account.status,
+        account.create_date,
+        account.pause_date,
+        account.close_date,
+        account.real_name,
+        account.idcard_no,
+        account.birth_date,
+        account.gender,
+        account.occupation,
+        account.email,
+        account.mail_address,
+        account.zip_code,
+        account.qq,
+        account.last_login_time,
+        account.last_login_ip
+    </sql>
+
+    <resultMap id="accountMap" type="com.baidu.account.domain.Account">
+        <id column="account_id" property="accountId"/>
+        <result column="recommender_id" property="recommenderId"/>
+        <result column="login_name" property="loginName"/>
+        <result column="login_passWd" property="loginPasswd"/>
+        <result column="status" property="status"/>
+        <result column="create_date" property="createDate"/>
+        <result column="pause_date" property="pauseDate"/>
+        <result column="close_date" property="closeDate"/>
+        <result column="real_name" property="realName"/>
+        <result column="idcard_no" property="idcardNo"/>
+        <result column="birth_date" property="birthDate"/>
+        <result column="gender" property="gender"/>
+        <result column="occupation" property="occupation"/>
+        <result column="telephone" property="telephone"/>
+        <result column="email" property="email"/>
+        <result column="mail_address" property="mailAddress"/>
+        <result column="zip_code" property="zipCode"/>
+        <result column="qq" property="qq"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="last_login_ip" property="lastLoginIp"/>
+    </resultMap>
+
+    <select id="findAll1"
+            parameterType="com.baidu.base.domain.PageBean"
+            resultMap="accountMap">
+        SELECT
+        <include refid="accountSql"/>
+         FROM account limit ${start},${ps}
+    </select>
+
+    <select id="findAll"
+            resultMap="accountMap">
+        SELECT * FROM account
+    </select>
+
+    <select id="findById"
+            parameterType="int"
+            resultMap="accountMap">
+        SELECT
+        <include refid="accountSql"/>
+        FROM account
+        WHERE account_id = #{accountId}
+    </select>
+
+
+</mapper>
+

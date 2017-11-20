@@ -3,21 +3,16 @@ package com.baidu.base.controller;
 import com.baidu.admin.domain.Admin;
 import com.baidu.admin.service.AdminService;
 import com.baidu.base.utils.VerifyCode;
-import com.sun.deploy.net.HttpRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -31,7 +26,6 @@ public class MainController {
     private AdminService adminService;
 
     private String text;
-
 
     /**
      * 设置首页
@@ -100,6 +94,32 @@ public class MainController {
 
         return "index";
     }
+
+    @RequestMapping("nopower")
+    public String noPower(){
+        return "nopower";
+    }
+
+
+    @RequestMapping("error")
+    public String error(){
+        return "error";
+    }
+
+
+    /**
+     *  退出
+     * @param request
+     * @return
+     */
+    @RequestMapping("exit")
+    public String exit(HttpServletRequest request){
+
+        request.getServletContext().removeAttribute("admin");
+
+        return "/login";
+    }
+
 
 
 

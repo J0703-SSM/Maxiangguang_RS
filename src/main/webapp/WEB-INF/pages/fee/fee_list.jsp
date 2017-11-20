@@ -30,28 +30,37 @@
         //启用
         function startFee(param) {
             var r = window.confirm("确定要启用此资费吗？资费启用后将不能修改和删除。");
+            if (r){
+
+            }
             $.post({
-                url: "/fee/startFee",
+                url: "${pageContext.request.contextPath}/fee/startFee",
                 data: {
                     costId: param
                 }
             });
-
-            location.href = "/fee/findAllFee";
+            location.href = "${pageContext.request.contextPath}/fee/findAllFee";
 
             document.getElementById("operate_result_info").style.display = "block";
         }
         //删除
         function deleteFee(param) {
             var r = window.confirm("确定要删除此资费吗？");
-            $.post({
-                url: "/fee/deleteFee",
-                data: {
-                    costId: param
-                }
-            });
-            location.href = "/fee/findAllFee";
-            document.getElementById("operate_result_info").style.display = "block"
+            if (r){
+
+                $.post({
+                    url: "${pageContext.request.contextPath}/fee/deleteFee",
+                    data: {
+                        costId: param
+                    }
+                });
+                // 删除某一行
+                var rowid = "#" + param;
+                $(rowid).remove();
+                document.getElementById("operate_result_info").style.display = "block";
+            }else {
+                return "";
+            }
         }
     </script>
 </head>
@@ -65,16 +74,16 @@
 <!--导航区域开始-->
 <div id="navi">
     <ul id="menu">
-        <li><a href="/index" class="index_on"></a></li>
-        <li><a href="/role/role_list" class="role_off"></a></li>
-        <li><a href="/admin/admin_list" class="admin_off"></a></li>
-        <li><a href="/fee/findAllFee" class="fee_off"></a></li>
-        <li><a href="/account/account_list" class="account_off"></a></li>
-        <li><a href="/service/service_list" class="service_off"></a></li>
-        <li><a href="/bill/bill_list" class="bill_off"></a></li>
-        <li><a href="/report/report_list" class="report_off"></a></li>
-        <li><a href="/user/user_info" class="information_off"></a></li>
-        <li><a href="/user/user_modi_pwd" class="password_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/index" class="index_on"></a></li>
+        <li><a href="${pageContext.request.contextPath}/role/role_list" class="role_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/admin_list" class="admin_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/fee/findAllFee" class="fee_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/account/account_list" class="account_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/service/service_list" class="service_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/bill/bill_list" class="bill_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/report/report_list" class="report_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/user/user_info" class="information_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/user/user_modi_pwd" class="password_off"></a></li>
     </ul>
 </div>
 <!--导航区域结束-->
@@ -84,7 +93,7 @@
     <div class="search_add">
         <div>
             <!--<input type="button" value="月租" class="sort_asc" onclick="sort(this);" />-->
-            <form action="/feeOrderByBaseCost" method="post">
+            <form action="${pageContext.request.contextPath}/feeOrderByBaseCost" method="post">
                 <input type="button" value="基费" class="sort_asc" onclick="sort(this, $('#i1').name);document.forms[0].submit" id="b1"/>
                 <input type="hidden" name="rankBaseC" value="desc" id="i1"/>
                 <input type="button" value="时长" class="sort_asc" onclick="sort(this, $('#i2').name);document.forms[0].submit" id="b2"/>
@@ -113,9 +122,9 @@
                 <th class="width200"></th>
             </tr>
             <c:forEach var="cost" items="${pageBean.beanList}">
-                <tr>
+                <tr id="${cost.costId}">
                     <td id="t1">${cost.costId}</td>
-                    <td><a href="/fee/fee_detail?costId=${cost.costId}">${cost.costName}</a></td>
+                    <td><a href="${pageContext.request.contextPath}/fee/fee_detail?costId=${cost.costId}">${cost.costName}</a></td>
                     <td><c:if test="${cost.baseDuration != 0}">${cost.baseDuration}</c:if></td>
                     <td><c:if test="${cost.baseCost != 0}">${cost.baseCost}</c:if></td>
                     <td><c:if test="${cost.unitCost != 0}">${cost.unitCost}</c:if></td>
@@ -136,7 +145,7 @@
                         <c:if test="${cost.status == '0'}">
                             <input type="button" value="启用" class="btn_start" onclick="startFee(${cost.costId});"/>
                             <input type="button" value="修改" class="btn_modify"
-                                   onclick="location.href='/fee/updatePrepared?costId=${cost.costId}';"/>
+                                   onclick="location.href='${pageContext.request.contextPath}/fee/updatePrepared?costId=${cost.costId}';"/>
                             <input type="button" value="删除" class="btn_delete" onclick="deleteFee(${cost.costId});"/>
                         </c:if>
                     </td>

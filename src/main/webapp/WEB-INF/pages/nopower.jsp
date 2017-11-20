@@ -20,7 +20,7 @@
                 }
                 else {
                     window.clearInterval(timer);
-                    location.href = "../index.jsp";
+                    location.href = "/index";
                 }
             }
 
@@ -28,7 +28,7 @@
             function resetTimer() {
                 if (timer != null && timer != undefined) {
                     window.clearInterval(timer);
-                    location.href = "../index.jsp";
+                    location.href = "/index";
                 }
             }
         </script> 

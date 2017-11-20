@@ -16,23 +16,23 @@
         <!--导航区域开始-->
         <div id="navi">
             <ul id="menu">
-                <li><a href="/index" class="index_on"></a></li>
-                <li><a href="/role/role_list" class="role_off"></a></li>
-                <li><a href="/admin/admin_list" class="admin_off"></a></li>
-                <li><a href="/fee/findAllFee" class="fee_off"></a></li>
-                <li><a href="/account/account_list" class="account_off"></a></li>
-                <li><a href="/service/service_list" class="service_off"></a></li>
-                <li><a href="/bill/bill_list" class="bill_off"></a></li>
-                <li><a href="/report/report_list" class="report_off"></a></li>
-                <li><a href="/user/user_info" class="information_off"></a></li>
-                <li><a href="/user/user_modi_pwd" class="password_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/index" class="index_on"></a></li>
+                <li><a href="${pageContext.request.contextPath}/role/role_list" class="role_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/admin/admin_list" class="admin_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/fee/findAllFee" class="fee_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/account/account_list" class="account_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/service/service_list" class="service_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/bill/bill_list" class="bill_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/report/report_list" class="report_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/user/user_info" class="information_off"></a></li>
+                <li><a href="${pageContext.request.contextPath}/user/user_modi_pwd" class="password_off"></a></li>
             </ul>
         </div>
         <!--导航区域结束-->
         <div id="main">      
             <!--保存操作后的提示信息：成功或者失败-->      
             <div id="save_result_info" class="save_success">保存成功！</div><!--保存失败，旧密码错误！-->
-            <form action="/user/user_update_pwd" method="post" class="main_form">
+            <form action="${pageContext.request.contextPath}/user/user_update_pwd" method="post" class="main_form">
                 <div class="text_info clearfix"><span>旧密码：</span></div>
                 <div class="input_info">
                     <input type="password" class="width200" name="password" value="${oldPwd}"/><span class="required">*</span>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="button_info clearfix">
                     <input type="submit" value="保存" class="btn_save" onclick="showResult();" />
-                    <input type="button" value="取消" class="btn_save" />
+                    <input type="button" value="取消" class="btn_save" onclick="window.history.back(-1)"/>
                 </div>
             </form>  
         </div>

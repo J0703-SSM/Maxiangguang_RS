@@ -14,53 +14,59 @@
             var detailDiv = a.parentNode.getElementsByTagName("div")[0];
             if (flag) {
                 detailDiv.style.display = "block";
-            }
-            else
+            } else {
                 detailDiv.style.display = "none";
+            }
         }
         //重置密码
         function resetPwd() {
-            alert("6666")
             var check = $("input[type=checkbox]:checked");
-            if (check.size == 0) {
-                alert("请至少选择一条数据！");
-            }
-            check.each(function () {
-                var adminId = $(this).attr("name");
-                alert("555");
-                $.post({
-                    url: "/admin/admin_updatePwd",
-                    data: {
-                        adminId: adminId
-                    },
-                    success: function (result) {
 
-                        if(result){
-                            alert("重置密码成功! ")
-                        }else {
-                            alert("重置密码失败! ")
-                        }
-                    }
-                })
-            });
-            document.getElementById("operate_result_info").style.display = "block";
+            if (check.length == 0) {
+                alert("请至少选择一条数据！");
+            } else {
+                var str = prompt("请输入新密码! ");
+                if (str) {
+                    alert("您输入的新密码是：" + str)
+                }
+                if (str) {
+                    check.each(function () {
+                        var adminId = $(this).attr("name");
+                        $.post({
+                            url: "${pageContext.request.contextPath}/admin/admin_updatePwd",
+                            data: {
+                                adminId: adminId,
+                                password: str
+                            }
+                        })
+
+                        document.getElementById("operate_result_info1").style.display = "block";
+                    });
+                } else {
+                    return "#";
+                }
+            }
         }
         //删除
         function deleteAdmin(param) {
             var r = window.confirm("确定要删除此管理员吗？");
+            if (r) {
+                $.post({
+                    type: "post",
+                    url: "${pageContext.request.contextPath}/admin/admin_delete",
+                    data: {
+                        adminId: param
+                    }
 
-            $.post({
-                type: "post",
-                url: "/admin/admin_delete",
-                data: {
-                    adminId: param
-                }
+                });
+                // 删除某一行
+                var rowid = "#" + param;
+                $(rowid).remove();
+                document.getElementById("operate_result_info").style.display = "block";
+            } else {
+                return "#";
+            }
 
-            });
-            // 删除某一行
-            var rowid = "#" + param;
-            $(rowid).remove();
-            document.getElementById("operate_result_info").style.display = "block";
         }
 
         //全选
@@ -87,22 +93,22 @@
 <!--导航区域开始-->
 <div id="navi">
     <ul id="menu">
-        <li><a href="/index" class="index_on"></a></li>
-        <li><a href="/role/role_list" class="role_off"></a></li>
-        <li><a href="/admin/admin_list" class="admin_off"></a></li>
-        <li><a href="/fee/findAllFee" class="fee_off"></a></li>
-        <li><a href="/account/account_list" class="account_off"></a></li>
-        <li><a href="/service/service_list" class="service_off"></a></li>
-        <li><a href="/bill/bill_list" class="bill_off"></a></li>
-        <li><a href="/report/report_list" class="report_off"></a></li>
-        <li><a href="/user/user_info" class="information_off"></a></li>
-        <li><a href="/user/user_modi_pwd" class="password_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/index" class="index_on"></a></li>
+        <li><a href="${pageContext.request.contextPath}/role/role_list" class="role_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/admin_list" class="admin_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/fee/findAllFee" class="fee_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/account/account_list" class="account_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/service/service_list" class="service_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/bill/bill_list" class="bill_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/report/report_list" class="report_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/user/user_info" class="information_off"></a></li>
+        <li><a href="${pageContext.request.contextPath}/user/user_modi_pwd" class="password_off"></a></li>
     </ul>
 </div>
 <!--导航区域结束-->
 <!--主要区域开始-->
 <div id="main">
-    <form action="/admin/admin_find" method="post">
+    <form action="${pageContext.request.contextPath}/admin/admin_find" method="post">
         <!--查询-->
         <div class="search_add">
             <div>
@@ -117,12 +123,17 @@
             <div>角色：<input type="text" id="role" name="role" class="text_search width200" placeholder="例如:管理员"/></div>
             <div><input type="submit" value="搜索" class="btn_search"/></div>
             <input type="button" value="密码重置" class="btn_add" onclick="resetPwd();"/>
-            <input type="button" value="增加" class="btn_add" onclick="location.href='/admin/admin_addPrep';"/>
+            <input type="button" value="增加" class="btn_add"
+                   onclick="location.href='${pageContext.request.contextPath}/admin/admin_addPrep';"/>
         </div>
         <!--删除和密码重置的操作提示-->
         <div id="operate_result_info" class="operate_fail">
             <img src="/resources/images/close.png" onclick="this.parentNode.style.display='none';"/>
             <span>删除成功！</span><!--密码重置失败！数据并发错误。-->
+        </div>
+        <div id="operate_result_info1" class="operate_fail" style="display: none">
+            <img src="/resources/images/close.png" onclick="this.parentNode.style.display='none';"/>
+            <span>密码重置成功！</span><!--密码重置失败！数据并发错误。-->
         </div>
         <!--数据区域：用表格展示数据-->
         <div id="data">
@@ -178,7 +189,7 @@
                         </td>
                         <td class="td_modi">
                             <input type="button" value="修改" class="btn_modify"
-                                   onclick="location.href='/admin/admin_modiPrep?adminId=${admin.adminId}';"/>
+                                   onclick="location.href='${pageContext.request.contextPath}/admin/admin_modiPrep?adminId=${admin.adminId}';"/>
                             <input type="button" value="删除" class="btn_delete"
                                    onclick="deleteAdmin(${admin.adminId});"/>
                         </td>

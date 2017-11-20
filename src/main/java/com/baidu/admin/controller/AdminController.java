@@ -4,6 +4,7 @@ import com.baidu.admin.domain.Admin;
 import com.baidu.admin.domain.domain_ext.AdminExt;
 import com.baidu.admin.domain.domain_ext.PageBeanExt;
 import com.baidu.admin.service.AdminService;
+import com.baidu.base.domain.BaseException;
 import com.baidu.base.domain.PageBean;
 import com.baidu.base.utils.Result;
 import com.baidu.privilege.domain.Privilege;
@@ -290,12 +291,13 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping("/admin_updatePwd")
-    public void adminUpdatePwd(Admin admin) {
+    public void adminUpdatePwd(Admin admin) throws BaseException {
 
+        // 获取 AdminId 并进行判断, 不为 0  跟新, 否则抛出异常
         if (admin.getAdminId() != 0) {
-
-            admin.setPassword("123456");
             adminService.updatePwd(admin);
+        }else {
+            throw new BaseException("删除失败");
         }
 
     }
