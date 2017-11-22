@@ -84,7 +84,13 @@
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/fee/**"/>
-            <bean class="com.baidu.cost.interceptor.CostInterceptor"/>
+            <mvc:mapping path="/admin/**"/>
+            <mvc:mapping path="/role/**"/>
+            <mvc:mapping path="/account/**"/>
+            <mvc:mapping path="/report/**"/>
+            <mvc:mapping path="/bill/**"/>
+            <mvc:mapping path="/service/**"/>
+            <bean class="com.baidu.base.interceptor.privilegeInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

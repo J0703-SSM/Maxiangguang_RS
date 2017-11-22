@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface AdminMapper {
 
-    Admin findByNameAndPwd(Admin admin);
+    List<Admin> findByNameAndPwd(Admin admin);
 
 
     List<Admin> findAll();

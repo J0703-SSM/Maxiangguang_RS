@@ -2,17 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd
-       http://www.springframework.org/schema/tx
-       http://www.springframework.org/schema/tx/spring-tx.xsd
-       http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -34,9 +28,9 @@
     <mvc:default-servlet-handler/>
 
     <!--静态资源扫描路径-->
-    <!--<mvc:resources mapping="images/**" location="/resources/images/"/>-->
-    <!--<mvc:resources mapping="js/**" location="/resources/js/"/>-->
-    <!--<mvc:resources mapping="styles/**" location="/resources/styles/"/>-->
+    <mvc:resources mapping="images/**" location="/resources/images/"/>
+    <mvc:resources mapping="js/**" location="/resources/js/"/>
+    <mvc:resources mapping="styles/**" location="/resources/styles/"/>
 
     <!--配置视图解析规则-->
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -45,77 +39,5 @@
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
-
-    <!--&lt;!&ndash;mapper&ndash;&gt;-->
-    <!--&lt;!&ndash;引入db属性文件&ndash;&gt;-->
-    <!--<context:property-placeholder location="classpath:db.properties"/>-->
-
-    <!--&lt;!&ndash;1. 配置数据源&ndash;&gt;-->
-    <!--<bean id="dataSource"-->
-          <!--class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
-        <!--<property name="driverClass" value="${driver}"/>-->
-        <!--<property name="jdbcUrl" value="${url}"/>-->
-        <!--<property name="user" value="${username}"/>-->
-        <!--<property name="password" value="${password}"/>-->
-    <!--</bean>-->
-
-    <!--&lt;!&ndash;2. 配置SQLSessionFactory对象&ndash;&gt;-->
-    <!--<bean id="sessionFactory"-->
-          <!--class="org.mybatis.spring.SqlSessionFactoryBean">-->
-        <!--<property name="dataSource" ref="dataSource"/>-->
-        <!--&lt;!&ndash;引入mybatis的全局配置文件&ndash;&gt;-->
-        <!--<property name="mapperLocations" value="classpath*:com/baidu/*/mapper/*.xml"/>-->
-    <!--</bean>-->
-
-    <!--&lt;!&ndash;3. 配置事务&ndash;&gt;-->
-    <!--<bean id="transactionManager"-->
-          <!--class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
-        <!--<property name="dataSource" ref="dataSource"/>-->
-    <!--</bean>-->
-
-    <!--&lt;!&ndash;4. 配置事务属性&ndash;&gt;-->
-    <!--<tx:advice id="txAdvice"-->
-               <!--transaction-manager="transactionManager">-->
-        <!--<tx:attributes>-->
-            <!--<tx:method name="*"/>-->
-        <!--</tx:attributes>-->
-    <!--</tx:advice>-->
-
-    <!--&lt;!&ndash;5. 配置切面&ndash;&gt;-->
-    <!--<aop:config>-->
-        <!--<aop:pointcut id="pointcut"-->
-                      <!--expression="execution(* com.baidu.*.service.*.*(..))"/>-->
-        <!--<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>-->
-    <!--</aop:config>-->
-
-    <!--&lt;!&ndash;6. 配置Mybatis中的mapper接口自动扫描&ndash;&gt;-->
-    <!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
-        <!--&lt;!&ndash;mapper接口代理对象所在的包&ndash;&gt;-->
-        <!--<property name="basePackage" value="com.baidu.*.mapper"/>-->
-
-        <!--&lt;!&ndash;定义sessionFactory, 引用上面配置的工厂对象&ndash;&gt;-->
-        <!--<property name="sqlSessionFactoryBeanName" value="sessionFactory"/>-->
-    <!--</bean>-->
-
-    <!--&lt;!&ndash;文件上传&ndash;&gt;-->
-    <!--<bean id="multipartResolver"-->
-          <!--class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
-        <!--&lt;!&ndash;设置上传文件的大小&ndash;&gt;-->
-        <!--<property name="maxUploadSize" value="5244880"/>-->
-    <!--</bean>-->
-
-
-    <!--&lt;!&ndash;配置拦截器&ndash;&gt;-->
-    <!--&lt;!&ndash;<mvc:interceptors>&ndash;&gt;-->
-        <!--&lt;!&ndash;&lt;!&ndash;拦截器的执行顺序, 按照加入顺序&ndash;&gt;&ndash;&gt;-->
-        <!--&lt;!&ndash;<mvc:interceptor>&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;要拦截的请求路径&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;<mvc:mapping path="/**"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;拦截器所对应的类路径&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;<bean class="com.baidu.base.interceptor.LoginInterceptor"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;</mvc:interceptor>&ndash;&gt;-->
-    <!--&lt;!&ndash;</mvc:interceptors>&ndash;&gt;-->
-
-
 
 </beans>

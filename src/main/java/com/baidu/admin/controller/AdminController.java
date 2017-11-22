@@ -6,6 +6,7 @@ import com.baidu.admin.domain.domain_ext.PageBeanExt;
 import com.baidu.admin.service.AdminService;
 import com.baidu.base.domain.BaseException;
 import com.baidu.base.domain.PageBean;
+import com.baidu.base.utils.MD5EncryptUtil;
 import com.baidu.base.utils.Result;
 import com.baidu.privilege.domain.Privilege;
 import com.baidu.privilege.service.PrivilegeService;
@@ -149,8 +150,11 @@ public class AdminController {
 
         // 设置雇佣时间
         admin.setEnrolldate(new Date());
-        // 保存
+
+        // 加密并保存
+        admin.setPassword(MD5EncryptUtil.getMD5Value(admin.getPassword()));
         adminService.insertAdmin(admin);
+
         // 获取id
         Admin admin2 = adminService.findByAdminCode(admin);
         // 创建增强类adminExt
@@ -207,8 +211,12 @@ public class AdminController {
         List<Role> roleList = roleService.findAll();
         model.addAttribute("roleList", roleList);
 
-        String[] split = admin.getRole().split(",");
-        model.addAttribute("roles", split);
+        if (null != admin){
+            if (null != admin.getRole() || !"".equals(admin.getRole())) {
+                String[] split = admin.getRole().split(",");
+                model.addAttribute("roles", split);
+            }
+        }
     }
 
     @RequestMapping("/admin_modi")
@@ -295,8 +303,10 @@ public class AdminController {
 
         // 获取 AdminId 并进行判断, 不为 0  跟新, 否则抛出异常
         if (admin.getAdminId() != 0) {
+            // 加密
+            admin.setPassword(MD5EncryptUtil.getMD5Value(admin.getPassword()));
             adminService.updatePwd(admin);
-        }else {
+        } else {
             throw new BaseException("删除失败");
         }
 

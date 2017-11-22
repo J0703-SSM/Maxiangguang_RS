@@ -2,6 +2,7 @@ package com.baidu.base.controller;
 
 import com.baidu.admin.domain.Admin;
 import com.baidu.admin.service.AdminService;
+import com.baidu.base.utils.MD5EncryptUtil;
 import com.baidu.base.utils.VerifyCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,12 +78,13 @@ public class MainController {
             return "login";
         }
 
+        admin.setPassword(MD5EncryptUtil.getMD5Value(admin.getPassword()));
+
         Admin admin1 = adminService.findByNameAndPsw(admin);
         if (null == admin1) {
             model.addAttribute("error", "用户名或密码错误，请重试");
             return "login";
         }
-
 
         request.getServletContext().setAttribute("admin", admin1);
 

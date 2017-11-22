@@ -25,7 +25,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin findByNameAndPsw(Admin admin) {
-        return adminMapper.findByNameAndPwd(admin);
+        List<Admin> adminList = adminMapper.findByNameAndPwd(admin);
+
+        for (Admin ad : adminList) {
+            System.out.println(ad);
+        }
+        return adminList!= null && adminList.size()>0?adminList.get(0):null;
     }
 
     @Override

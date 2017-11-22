@@ -29,7 +29,7 @@ public class Admin {
     @Pattern(regexp = REGEX_EMAIL, message = "邮箱格式错误")
     private String email;
     private Date enrolldate;
-    @NotBlank(message = "至少选一个")
+//    @NotBlank(message = "至少选一个")
     private String role;//角色
     private String code;//验证码
     private String privilege;
@@ -71,6 +71,23 @@ public class Admin {
         this.code = code;
         this.newPassword = newPassword;
         this.reNewPassword = reNewPassword;
+    }
+
+    public Admin(int adminId, String adminCode, String password, String name, String telephone, String email, Date enrolldate, String role, String code, String privilege, String newPassword, String reNewPassword, List<Role> roleList, List<String> roles) {
+        this.adminId = adminId;
+        this.adminCode = adminCode;
+        this.password = password;
+        this.name = name;
+        this.telephone = telephone;
+        this.email = email;
+        this.enrolldate = enrolldate;
+        this.role = role;
+        this.code = code;
+        this.privilege = privilege;
+        this.newPassword = newPassword;
+        this.reNewPassword = reNewPassword;
+        this.roleList = roleList;
+        this.roles = roles;
     }
 
     @Override
@@ -201,4 +218,7 @@ public class Admin {
     public void setEnrolldate(Date enrolldate) {
         this.enrolldate = enrolldate;
     }
+
+
+
 }

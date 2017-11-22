@@ -38,18 +38,22 @@
 
     <resultMap id="adminMap1" type="com.baidu.admin.domain.Admin">
         <id column="adminId" property="adminId"/>
-        <result column="name" property="name"/>
-        <result column="password" property="password"/>
         <result column="adminCode" property="adminCode"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
         <result column="telephone" property="telephone"/>
         <result column="email" property="email"/>
         <result column="enrolldate" property="enrolldate"/>
+
         <collection property="roleList"
                     ofType="com.baidu.role.domain.Role">
+
             <id column="roleId" property="roleId"/>
             <result column="roleName" property="roleName"/>
+
             <collection property="privilegeList"
                         ofType="com.baidu.privilege.domain.Privilege">
+
                 <id column="privilegeId" property="privilegeId"/>
                 <result column="privilegeName" property="privilegeName"/>
             </collection>
@@ -59,17 +63,18 @@
     <!--登录查询-->
     <select id="findByNameAndPwd"
             parameterType="com.baidu.admin.domain.Admin"
-            resultMap="adminMap">
-        SELECT a.adminId id, a.name name,a.password pwd,a.adminCode code,a.telephone tel,a.email email,a.enrolldate date,
-        group_concat(r.roleName SEPARATOR ',') role, group_concat(p.privilegeName SEPARATOR ',') privilege
-        FROM admin_info a ,role_info r, admin_role ar, role_privilege rp, privilege_info p
-        WHERE a.adminCode = #{adminCode}
-        AND password = #{password}
-        AND a.adminId = ar.admin_id
-        and ar.role_id = r.roleId
-        and r.roleId = rp.role_id
-        AND rp.privilege_id = p.privilegeId
-        GROUP by a.adminId
+            resultMap="adminMap1">
+        SELECT
+        <include refid="adminSql"/>,
+        <include refid="roleSql"/>,
+        <include refid="privilegeSql"/>
+        FROM admin_info,admin_role, role_info, role_privilege, privilege_info
+        WHERE admin_info.adminCode = #{adminCode}
+        AND admin_info.password = #{password}
+        AND admin_info.adminId = admin_role.admin_id
+        and admin_role.role_id = role_info.roleId
+        and role_info.roleId = role_privilege.role_id
+        AND role_privilege.privilege_id = privilege_info.privilegeId;
     </select>
 
     <!--根据id查询-->
@@ -115,18 +120,8 @@
     <select id="findAll1"
             parameterType="com.baidu.base.domain.PageBean"
             resultMap="adminMap">
-        <!--SELECT-->
-        <!--<include refid="adminSql"/>,-->
-        <!--<include refid="roleSql"/>,-->
-        <!--<include refid="privilegeSql"/>-->
-        <!--FROM admin_info-->
-        <!--LEFT JOIN (admin_role, role_info, role_privilege, privilege_info)-->
-        <!--ON admin_info.adminId = admin_role.admin_id-->
-        <!--and admin_role.role_id = role_info.roleId-->
-        <!--and role_info.roleId = role_privilege.role_id-->
-        <!--and role_privilege.privilege_id = privilege_info.privilegeId-->
-        <!--GROUP BY admin_info.adminId limit ${start},${ps}-->
-        SELECT a.adminId id, a.name name,a.adminCode code,a.telephone tel,a.email email,a.enrolldate date,group_concat(r.roleName SEPARATOR ',') role
+        SELECT a.adminId id, a.name name,a.adminCode code,a.telephone tel,a.email email,a.enrolldate
+        date,group_concat(r.roleName SEPARATOR ',') role
         FROM admin_info a LEFT JOIN (role_info r, admin_role ar)
         ON a.adminId = ar.admin_id
         and ar.role_id = r.roleId
