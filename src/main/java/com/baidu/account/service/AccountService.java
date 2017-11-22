@@ -12,4 +12,8 @@ public interface AccountService {
     PageBean<Account> findAll(PageBean<Account> pageBean);
 
     Account findById(int accountId);
+
+    void insertAccount(Account account);
+
+    void deleteById(int accountId);
 }

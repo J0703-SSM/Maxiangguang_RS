@@ -34,9 +34,9 @@
     <mvc:default-servlet-handler/>
 
     <!--静态资源扫描路径-->
-    <mvc:resources mapping="images/**" location="/resources/images/"/>
-    <mvc:resources mapping="js/**" location="/resources/js/"/>
-    <mvc:resources mapping="styles/**" location="/resources/styles/"/>
+    <!--<mvc:resources mapping="images/**" location="/resources/images/"/>-->
+    <!--<mvc:resources mapping="js/**" location="/resources/js/"/>-->
+    <!--<mvc:resources mapping="styles/**" location="/resources/styles/"/>-->
 
     <!--配置视图解析规则-->
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

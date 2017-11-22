@@ -2,6 +2,7 @@ package com.baidu.cost.controller;
 
 import com.baidu.base.domain.PageBean;
 import com.baidu.cost.domain.Cost;
+import com.baidu.cost.domain.PageBeanEx;
 import com.baidu.cost.service.CostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,7 +53,7 @@ public class CostController {
      */
     @RequestMapping("/feeAdd")
     public String feeAdd(@Validated Cost cost, BindingResult result,
-                         Model model, PageBean<Cost> pageBean) {
+                         Model model, PageBeanEx pageBean) {
 
         // 校验为空
         if (result.hasErrors()) {
@@ -72,8 +73,8 @@ public class CostController {
         if (cost.getBaseCost() != null) {
             virifyCost(cost, model);
             if (model.containsAttribute("baseCostEr")
-                    ||model.containsAttribute("baseDurEr")
-                    ||model.containsAttribute("unitCostEr")) {
+                    || model.containsAttribute("baseDurEr")
+                    || model.containsAttribute("unitCostEr")) {
                 return "fee/fee_add";
             }
         }
@@ -94,7 +95,7 @@ public class CostController {
     }
 
     /**
-     *  验证 baseDur,baseCost,unitCost
+     * 验证 baseDur,baseCost,unitCost
      */
     private void virifyCost(@Validated Cost cost, Model model) {
         switch (cost.getCostType()) {
@@ -106,12 +107,12 @@ public class CostController {
                 }
                 if (null == cost.getBaseDuration() || "".equals(cost.getBaseDuration())) {
                     model.addAttribute("baseDurEr", "不能为空");
-                }else if (!(cost.getBaseDuration() instanceof Integer)) {
+                } else if (!(cost.getBaseDuration() instanceof Integer)) {
                     model.addAttribute("baseDurEr", "输入类型应为数字");
                 }
                 if (null == cost.getUnitCost() || "".equals(cost.getUnitCost())) {
                     model.addAttribute("unitCostEr", "不能为空");
-                }else if (!(cost.getUnitCost() instanceof Double)) {
+                } else if (!(cost.getUnitCost() instanceof Double)) {
                     model.addAttribute("unitCostEr", "输入类型应为数字");
                 }
                 break;
@@ -125,7 +126,7 @@ public class CostController {
             default:
                 if (null == cost.getUnitCost() || "".equals(cost.getUnitCost())) {
                     model.addAttribute("unitCostEr", "不能为空");
-                }else if (!(cost.getUnitCost() instanceof Double)) {
+                } else if (!(cost.getUnitCost() instanceof Double)) {
                     model.addAttribute("unitCostEr", "输入类型应为数字");
                 }
                 break;
@@ -194,7 +195,7 @@ public class CostController {
      * @return
      */
     @RequestMapping("/findAllFee")
-    public String findAll(PageBean<Cost> pageBean, Model model) {
+    public String findAll(PageBeanEx pageBean, Model model) {
 
         // 将查询参数封装到pageBean中
         getPageProperties(pageBean);
@@ -224,26 +225,13 @@ public class CostController {
         pageBean.setUrl("/fee/findAllFee");
     }
 
+
     /**
-     * 根据baseDuration排序
+     * 显示详情
+     * @param cost
+     * @param model
+     * @return
      */
-    @RequestMapping("/feeOrderByBaseDuration")
-    public String feeOrderByBaseDuration(PageBean<Cost> pageBean, String rankBaseC,
-                                         String rankBaseD, Model model) {
-
-        System.out.println(rankBaseD);
-        System.out.println(rankBaseC);
-        System.out.println(pageBean);
-
-        getPageProperties(pageBean);
-
-        pageBean = costService.Order(rankBaseD, rankBaseC, pageBean);
-
-        model.addAttribute("pageBean", pageBean);
-
-        return "fee/fee_list";
-    }
-
     @RequestMapping("/fee_detail")
     public String feeDetailPrep(Cost cost, Model model) {
 
@@ -255,6 +243,38 @@ public class CostController {
 
         return "fee/fee_detail";
     }
+
+    /**
+     * 排序
+     */
+    @RequestMapping("/fee_order")
+    public String feeOrder(PageBeanEx pageBean, Model model) {
+
+        getPageProperties(pageBean);
+
+        String cost = pageBean.getOrderByCost();
+        String duration = pageBean.getOrderByDuration();
+
+        pageBean = costService.Order(pageBean);
+
+        if ("desc".equals(cost)){
+            pageBean.setOrderByCost("sort_desc");
+        }
+        if ("asc".equals(cost)){
+            pageBean.setOrderByCost("sort_asc");
+        }
+        if ("desc".equals(duration)){
+            pageBean.setOrderByDuration("sort_asc");
+        }
+        if ("asc".equals(duration)){
+            pageBean.setOrderByDuration("sort_desc");
+        }
+
+        model.addAttribute("pageBean", pageBean);
+
+        return "fee/fee_list";
+    }
+
 
 
 }

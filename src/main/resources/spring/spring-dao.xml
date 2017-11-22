@@ -82,6 +82,10 @@
             <!--拦截器所对应的类路径-->
             <bean class="com.baidu.base.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/fee/**"/>
+            <bean class="com.baidu.cost.interceptor.CostInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
 
 

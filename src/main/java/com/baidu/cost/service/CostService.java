@@ -2,6 +2,7 @@ package com.baidu.cost.service;
 
 import com.baidu.base.domain.PageBean;
 import com.baidu.cost.domain.Cost;
+import com.baidu.cost.domain.PageBeanEx;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface CostService {
     List<Cost> findAll();
 
 
-    PageBean<Cost> Order(String rankBaseD,String rankBaseC, PageBean<Cost> pageBean);
+    PageBeanEx Order(PageBeanEx pageBean);
 
     void updateStatus(Cost cost);
 
@@ -26,5 +27,5 @@ public interface CostService {
 
     void deleteById(Integer costId);
 
-    PageBean<Cost> findAll(PageBean<Cost> pageBean);
+    PageBeanEx findAll(PageBeanEx pageBean);
 }

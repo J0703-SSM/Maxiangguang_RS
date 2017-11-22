@@ -13,6 +13,7 @@
         <result column="email" property="email"/>
         <result column="date" property="enrolldate"/>
         <result column="role" property="role"/>
+        <result column="privilege" property="privilege"/>
     </resultMap>
 
     <sql id="adminSql">
@@ -59,12 +60,15 @@
     <select id="findByNameAndPwd"
             parameterType="com.baidu.admin.domain.Admin"
             resultMap="adminMap">
-        SELECT a.adminId id, a.name name,a.password pwd,a.adminCode code,a.telephone tel,a.email email,a.enrolldate date,group_concat(r.roleName SEPARATOR ',') role
-        FROM admin_info a ,role_info r, admin_role ar WHERE
-        a.adminCode = #{adminCode}
+        SELECT a.adminId id, a.name name,a.password pwd,a.adminCode code,a.telephone tel,a.email email,a.enrolldate date,
+        group_concat(r.roleName SEPARATOR ',') role, group_concat(p.privilegeName SEPARATOR ',') privilege
+        FROM admin_info a ,role_info r, admin_role ar, role_privilege rp, privilege_info p
+        WHERE a.adminCode = #{adminCode}
         AND password = #{password}
         AND a.adminId = ar.admin_id
         and ar.role_id = r.roleId
+        and r.roleId = rp.role_id
+        AND rp.privilege_id = p.privilegeId
         GROUP by a.adminId
     </select>
 
@@ -142,7 +146,7 @@
         and admin_role.role_id = role_info.roleId
         and role_info.roleId = role_privilege.role_id
         and role_privilege.privilege_id = privilege_info.privilegeId
-        <if test="roles != null and roles.size>0">
+        <if test="roles != null and roles.size > 0">
             <foreach collection="roles"
                      item="name"
                      open="And role_info.roleName in("

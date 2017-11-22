@@ -1,5 +1,5 @@
 ﻿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -34,13 +34,28 @@
                 imgObj.src = "../images/show.png";
             }
         }
+
+        // 获得生日
+        function getBirthDate(obj) {
+            $.post({
+                url: "${pageContext.request.contextPath}/account/getBirthDate",
+                data: {
+                    idcardNo: obj.value
+                },
+                success: function (result) {
+                    alert(result);
+                    $("#birth").val(result)
+                }
+            })
+
+        }
     </script>
 </head>
 <body>
 <!--Logo区域开始-->
 <div id="header">
     <img src="../images/logo.png" alt="logo" class="left"/>
-    <a href="#">[退出]</a>
+    <a href="${pageContext.request.contextPath}/exit">[退出]</a>
 </div>
 <!--Logo区域结束-->
 <!--导航区域开始-->
@@ -63,71 +78,71 @@
 <div id="main">
     <!--保存成功或者失败的提示消息-->
     <div id="save_result_info" class="save_fail">保存失败，该身份证已经开通过账务账号！</div>
-    <form action="${pageContext.request.contextPath}/admin/admin_add" method="post" class="main_form">
+    <form action="${pageContext.request.contextPath}/account/account_add" method="post" class="main_form">
         <!--必填项-->
         <div class="text_info clearfix"><span>姓名：</span></div>
         <div class="input_info">
-            <input type="text" value="" name="realName"/>
+            <input type="text" value="${account.realName}" name="realName"/>
             <span class="required">*</span>
             <div class="validate_msg_long">
                 ${realNameEr.defaultMessage}
-                <c:if test="${realNameEr == null || realNameEr == ''}">
+                <c:if test="${(realNameEr == null || realNameEr == '')&& (account.realName == null || account.realName =='')}">
                     20长度以内的汉字、字母和数字的组合
                 </c:if>
                 </div>
         </div>
         <div class="text_info clearfix"><span>身份证：</span></div>
         <div class="input_info">
-            <input type="text" value="" name="idcardNo"/>
+            <input type="text" value="${account.idcardNo}" name="idcardNo" onblur="getBirthDate(this)"/>
             <span class="required">*</span>
             <div class="validate_msg_long">
-                ${realNameEr.defaultMessage}
-                <c:if test="${realNameEr == null || realNameEr == ''}">
-                    20长度以内的汉字、字母和数字的组合
+                ${idcardNoEr.defaultMessage}
+                <c:if test="${(idcardNoEr == null || idcardNoEr == '')&&(account.idcardNo == null || account.idcardNo =='')}">
+                    正确的身份证号码格式
                 </c:if>
-                正确的身份证号码格式
             </div>
         </div>
         <div class="text_info clearfix"><span>登录账号：</span></div>
         <div class="input_info">
-            <input type="text" value="" name="loginName"/>
+            <input type="text" value="${account.loginName}" name="loginName"/>
             <span class="required">*</span>
             <div class="validate_msg_long">
-                ${realNameEr.defaultMessage}
-                <c:if test="${realNameEr == null || realNameEr == ''}">
-                    20长度以内的汉字、字母和数字的组合
+                ${loginNameEr.defaultMessage}
+                <c:if test="${(loginNameEr == null || loginNameEr == '')&&(account.loginName==null || account.loginName =='')}">
+                    30长度以内的字母、数字和下划线的组合
                 </c:if>
-                30长度以内的字母、数字和下划线的组合</div>
+                </div>
         </div>
         <div class="text_info clearfix"><span>密码：</span></div>
         <div class="input_info">
-            <input type="password" name="password" value=""/>
+            <input type="password" name="loginPasswd" value="${account.loginPasswd}"/>
             <span class="required">*</span>
             <div class="validate_msg_long">
-                ${realNameEr.defaultMessage}
-                <c:if test="${realNameEr == null || realNameEr == ''}">
+                ${passwordEr.defaultMessage}
+                <c:if test="${(passwordEr == null || passwordEr == '')&&(account.loginPasswd==null||account.loginPasswd=='')}">
                     30长度以内的字母、数字和下划线的组合
                 </c:if>
                 </div>
         </div>
         <div class="text_info clearfix"><span>重复密码：</span></div>
         <div class="input_info">
-            <input type="password" name="rePassword"/>
+            <input type="password" name="rePassWord" value="${account.rePassWord}"/>
             <span class="required">*</span>
             <div class="validate_msg_long">
-                ${realNameEr.defaultMessage}
-                <c:if test="${realNameEr == null || realNameEr == ''}">
+                ${rePasswordEr.defaultMessage}${error}
+                <c:if test="${(rePasswordEr == null || rePasswordEr == '')&&(account.rePassWord==null || account.rePassWord=='')
+                &&(error==null || error =='')}">
                     两次密码必须相同
                 </c:if>
                 </div>
         </div>
         <div class="text_info clearfix"><span>电话：</span></div>
         <div class="input_info">
-            <input type="text" class="width200" name="telephone"/>
+            <input type="text" class="width200" name="telephone" value="${account.telephone}"/>
             <span class="required">*</span>
             <div class="validate_msg_medium">
-                ${realNameEr.defaultMessage}
-                <c:if test="${realNameEr == null || realNameEr == ''}">
+                ${telephoneEr.defaultMessage}
+                <c:if test="${(telephoneEr == null || telephoneEr == '')&&(account.telephone==null||account.telephone=='')}">
                     正确的电话号码格式：手机或固话
                 </c:if>
                 </div>
@@ -142,22 +157,22 @@
             <div class="input_info">
                 <input type="text" name="recommenderIdCard"/>
                 <div class="validate_msg_long">
-
-                    <c:if test="">
+                    ${recommenderIdEr}
+                    <c:if test="${(recommenderIdEr == null || recommenderIdEr =='')&&(account.recommenderIdCard==null||account.recommenderIdCard=='')}">
                         正确的身份证号码格式
                     </c:if>
                 </div>
             </div>
             <div class="text_info clearfix"><span>生日：</span></div>
             <div class="input_info">
-                <input type="text" value="由身份证号计算而来" readonly class="readonly" name="birthDate"/>
+                <input type="text" value="${account.birthDate}" readonly class="readonly" name="birthDate" id="birth"/>
             </div>
             <div class="text_info clearfix"><span>Email：</span></div>
             <div class="input_info">
-                <input type="text" class="width350" name="email"/>
+                <input type="text" class="width350" name="email" value="${account.email}"/>
                 <div class="validate_msg_tiny">
-
-                    <c:if test="${idcardNoEr == null || idcardNoEr == ''}">
+                    ${idcardNoEr}
+                    <c:if test="${(idcardNoEr == null || idcardNoEr == '')&&(account.email ==null || account.email=='')}">
                         50长度以内，合法的 Email 格式
                     </c:if>
                     </div>
@@ -165,33 +180,48 @@
             <div class="text_info clearfix"><span>职业：</span></div>
             <div class="input_info">
                 <select name="occupation">
-                    <option value="干部">干部</option>
-                    <option value="学生">学生</option>
-                    <option value="技术人员">技术人员</option>
-                    <option value="其他">其他</option>
+                    <option value="干部" <c:if test="${account.occupation == '干部'}">selected</c:if>>干部</option>
+                    <option value="学生" <c:if test="${account.occupation == '学生'}">selected</c:if>>学生</option>
+                    <option value="技术人员" <c:if test="${account.occupation == '技术人员'}">selected</c:if>>技术人员</option>
+                    <option value="其他" <c:if test="${account.occupation == '其他'}">selected</c:if>>其他</option>
                 </select>
             </div>
             <div class="text_info clearfix"><span>性别：</span></div>
             <div class="input_info fee_type">
-                <input type="radio" name="gender" checked="checked" id="female" value="female"/>
+                <input type="radio" name="gender" <c:if test="${account.gender =='女'||account.gender == ''||account.gender==null}">checked</c:if> id="female" value="female"/>
                 <label for="female">女</label>
-                <input type="radio" name="gender" id="male" value="male"/>
+                <input type="radio" name="gender" <c:if test="${account.gender =='男'}">checked</c:if> id="male" value="male"/>
                 <label for="male">男</label>
             </div>
             <div class="text_info clearfix"><span>通信地址：</span></div>
             <div class="input_info">
                 <input type="text" class="width350" name="mailAddress"/>
-                <div class="validate_msg_tiny">50长度以内</div>
+                <div class="validate_msg_tiny">
+                    ${mailAddressEr}
+                    <c:if test="${(mailAddressEr == null || mailAddressEr == '')&&(account.mailAddress ==null || account.mailAddress=='')}">
+                        50长度以内
+                    </c:if>
+                </div>
             </div>
             <div class="text_info clearfix"><span>邮编：</span></div>
             <div class="input_info">
                 <input type="text" name="zipCode"/>
-                <div class="validate_msg_long">6位数字</div>
+                <div class="validate_msg_long">
+                    ${mailAddressEr}
+                    <c:if test="${(mailAddressEr == null || mailAddressEr == '')&&(account.mailAddress ==null || account.mailAddress=='')}">
+                        6位数字
+                    </c:if>
+                </div>
             </div>
             <div class="text_info clearfix"><span>QQ：</span></div>
             <div class="input_info">
                 <input type="text" name="qq"/>
-                <div class="validate_msg_long">5到13位数字</div>
+                <div class="validate_msg_long">
+                    ${mailAddressEr}
+                    <c:if test="${(mailAddressEr == null || mailAddressEr == '')&&(account.mailAddress ==null || account.mailAddress=='')}">
+                        5到13位数字
+                    </c:if>
+                </div>
             </div>
         </div>
         <!--操作按钮-->

@@ -25,7 +25,7 @@ public class AccountServiceImpl implements AccountService {
     public PageBean<Account> findAll(PageBean<Account> pageBean) {
         int pc = pageBean.getPc();
         int ps = pageBean.getPs();
-        pageBean.setStart((pc -1)*ps);
+        pageBean.setStart((pc - 1) * ps);
 
         List<Account> accounts = accountMapper.findAll1(pageBean);
 
@@ -39,6 +39,21 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account findById(int accountId) {
         return accountMapper.findById(accountId);
+    }
+
+    @Override
+    public void insertAccount(Account account) {
+        if (!"".equals(account.getRecommenderIdCard())) {
+            Account account1 = accountMapper.findByIdCard(account.getRecommenderIdCard());
+            account.setRecommenderId(account.getAccountId());
+        }
+
+        accountMapper.insertAccount(account);
+    }
+
+    @Override
+    public void deleteById(int accountId) {
+        accountMapper.deleteById(accountId);
     }
 
 

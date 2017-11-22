@@ -15,4 +15,10 @@ public interface AccountMapper {
     List<Account> findAll();
 
     Account findById(int accountId);
+
+    Account findByIdCard(String recommenderIdCard);
+
+    void insertAccount(Account account);
+
+    void deleteById(int accountId);
 }

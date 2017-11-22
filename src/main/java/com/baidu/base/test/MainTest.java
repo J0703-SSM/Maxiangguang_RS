@@ -57,16 +57,16 @@ public class MainTest {
     @Test
     public void testOrder(){
         CostMapper costMapper = (CostMapper) context.getBean("costMapper");
-
-        List<String> p= new ArrayList<>();
-        p.add("desc");
-        p.add("asc");
-
-        List<Cost> costList = costMapper.orderByBaseDuration("desc","asc");
-
-        for (Cost cost : costList) {
-            System.out.println(cost);
-        }
+//
+//        List<String> p= new ArrayList<>();
+//        p.add("desc");
+//        p.add("asc");
+//
+//        List<Cost> costList = costMapper.order();
+//
+//        for (Cost cost : costList) {
+//            System.out.println(cost);
+//        }
 
     }
     @Test
@@ -123,6 +123,18 @@ public class MainTest {
 
     }
 
+    @Test
+    public void birthDateTest(){
+
+        String idcardNo = "520121199407082416";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(idcardNo.substring(6,10)).append("-");
+        sb.append(idcardNo.substring(10,12)).append("-");
+        sb.append(idcardNo.substring(12,14));
+
+        System.out.println(sb.toString());
+    }
 
 
 

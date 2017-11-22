@@ -112,7 +112,7 @@ public class MainController {
      * @param request
      * @return
      */
-    @RequestMapping("exit")
+    @RequestMapping("/exit")
     public String exit(HttpServletRequest request){
 
         request.getServletContext().removeAttribute("admin");

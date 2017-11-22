@@ -32,6 +32,7 @@ public class Admin {
     @NotBlank(message = "至少选一个")
     private String role;//角色
     private String code;//验证码
+    private String privilege;
 
     @Size(min = 3, max = 30, message = "3 - 30长度以内的字母、数字和下划线的组合")
     private String newPassword;
@@ -40,6 +41,7 @@ public class Admin {
 
     private List<Role> roleList;
     private List<String> roles;
+
 
     public Admin() {
     }
@@ -86,6 +88,14 @@ public class Admin {
                 ", newPassword='" + newPassword + '\'' +
                 ", reNewPassword='" + reNewPassword + '\'' +
                 '}';
+    }
+
+    public String getPrivilege() {
+        return privilege;
+    }
+
+    public void setPrivilege(String privilege) {
+        this.privilege = privilege;
     }
 
     public List<String> getRoles() {

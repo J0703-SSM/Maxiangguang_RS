@@ -19,12 +19,12 @@ public class Account {
 
     private int recommenderId;
     @Pattern(regexp = REGEX_IDCARD, message = "身份证号码格式错误")
-    private int recommenderIdCard;
-    @NotBlank(message = "不能为空")
+    private String recommenderIdCard;
+    @Size(min = 3, max = 20, message = "3 ~ 20 位之间")
     private String loginName;
-    @Size(min = 3, max = 20, message = "3 - 20 位之间的的字母,下划线,数字")
+    @Size(min = 3, max = 20, message = "3 ~ 20 位之间")
     private String loginPasswd;
-    @Size(min = 3, max = 20, message = "3 - 20 位之间的的字母,下划线,数字")
+    @NotBlank(message = "不能为空")
     private String rePassWord;
 
     private String status;
@@ -39,7 +39,7 @@ public class Account {
     @Pattern(regexp = REGEX_IDCARD, message = "身份证号码格式错误")
     private String idcardNo;
 
-    private Timestamp birthDate;
+    private String birthDate;
 
     private String gender;
     private String occupation;
@@ -61,7 +61,7 @@ public class Account {
     public Account() {
     }
 
-    public Account(int recommenderId, int recommenderIdCard, String loginName, String loginPasswd, String rePassWord, String status, Date createDate, Timestamp pauseDate, Timestamp closeDate, String realName, String idcardNo, Timestamp birthDate, String gender, String occupation, String telephone, String email, String mailAddress, String zipCode, String qq, Timestamp lastLoginTime, String lastLoginIp) {
+    public Account(int recommenderId, String recommenderIdCard, String loginName, String loginPasswd, String rePassWord, String status, Date createDate, Timestamp pauseDate, Timestamp closeDate, String realName, String idcardNo, String birthDate, String gender, String occupation, String telephone, String email, String mailAddress, String zipCode, String qq, Timestamp lastLoginTime, String lastLoginIp) {
         this.recommenderId = recommenderId;
         this.recommenderIdCard = recommenderIdCard;
         this.loginName = loginName;
@@ -85,7 +85,7 @@ public class Account {
         this.lastLoginIp = lastLoginIp;
     }
 
-    public Account(int accountId, int recommenderId, int recommenderIdCard, String loginName, String loginPasswd, String rePassWord, String status, Date createDate, Timestamp pauseDate, Timestamp closeDate, String realName, String idcardNo, Timestamp birthDate, String gender, String occupation, String telephone, String email, String mailAddress, String zipCode, String qq, Timestamp lastLoginTime, String lastLoginIp) {
+    public Account(int accountId, int recommenderId, String recommenderIdCard, String loginName, String loginPasswd, String rePassWord, String status, Date createDate, Timestamp pauseDate, Timestamp closeDate, String realName, String idcardNo, String birthDate, String gender, String occupation, String telephone, String email, String mailAddress, String zipCode, String qq, Timestamp lastLoginTime, String lastLoginIp) {
         this.accountId = accountId;
         this.recommenderId = recommenderId;
         this.recommenderIdCard = recommenderIdCard;
@@ -138,6 +138,22 @@ public class Account {
                 '}';
     }
 
+    public String getRecommenderIdCard() {
+        return recommenderIdCard;
+    }
+
+    public void setRecommenderIdCard(String recommenderIdCard) {
+        this.recommenderIdCard = recommenderIdCard;
+    }
+
+    public String getRePassWord() {
+        return rePassWord;
+    }
+
+    public void setRePassWord(String rePassWord) {
+        this.rePassWord = rePassWord;
+    }
+
     public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
@@ -150,7 +166,7 @@ public class Account {
         this.closeDate = closeDate;
     }
 
-    public void setBirthDate(Timestamp birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -231,7 +247,7 @@ public class Account {
         this.idcardNo = idcardNo;
     }
 
-    public Timestamp getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 

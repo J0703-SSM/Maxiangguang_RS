@@ -11,42 +11,53 @@
     <script src="/resources/js/jquery-3.2.1.js"></script>
     <script language="javascript" type="text/javascript">
         //排序按钮的点击事件
-        function sort(btnObj, string) {
+        function sort(btnObj) {
             if (btnObj.className == "sort_desc") {
                 btnObj.className = "sort_asc";
-                if (string == "rankBaseC") {
-                    $("#i1").val("asc");
-                }
-                if (string == "rankBaseD") {
-                    $("#i2").val("asc");
+                if (btnObj.value == "基费") {
+                    location.href = "/fee/fee_order?orderByCost=desc";
+                } else {
+                    location.href = "/fee/fee_order?orderByDuration=desc";
                 }
             } else {
                 btnObj.className = "sort_desc";
-                $("#i1").innerText = "desc";
-                $("#i2").innerText = "desc";
+                if (btnObj.value == "基费") {
+                    location.href = "/fee/fee_order?orderByBase=acs";
+                } else {
+                    location.href = "/fee/fee_order?orderByDuration=asc";
+                }
             }
+            if (btnObj.value == "基费" && btnObj.className == "sort_desc") {
+                btnObj.className = "sort_asc";
+                location.href = "/fee/fee_order?orderByCost=desc";
+            } else if (btnObj.value == "基费" && btnObj.className == "sort_asc") {
+                btnObj.className = "sort_desc";
+                location.href = "/fee/fee_order?orderByCost=asc";
+            }
+
+
         }
 
         //启用
         function startFee(param) {
             var r = window.confirm("确定要启用此资费吗？资费启用后将不能修改和删除。");
-            if (r){
+            if (r) {
+                $.post({
+                    url: "${pageContext.request.contextPath}/fee/startFee",
+                    data: {
+                        costId: param
+                    }
+                });
+                location.href = "${pageContext.request.contextPath}/fee/findAllFee";
 
+                document.getElementById("operate_result_info").style.display = "block";
             }
-            $.post({
-                url: "${pageContext.request.contextPath}/fee/startFee",
-                data: {
-                    costId: param
-                }
-            });
-            location.href = "${pageContext.request.contextPath}/fee/findAllFee";
 
-            document.getElementById("operate_result_info").style.display = "block";
         }
         //删除
         function deleteFee(param) {
             var r = window.confirm("确定要删除此资费吗？");
-            if (r){
+            if (r) {
 
                 $.post({
                     url: "${pageContext.request.contextPath}/fee/deleteFee",
@@ -58,7 +69,7 @@
                 var rowid = "#" + param;
                 $(rowid).remove();
                 document.getElementById("operate_result_info").style.display = "block";
-            }else {
+            } else {
                 return "";
             }
         }
@@ -68,7 +79,7 @@
 <!--Logo区域开始-->
 <div id="header">
     <img src="/resources/images/logo.png" alt="logo" class="left"/>
-    <a href="#">[退出]</a>
+    <a href="${pageContext.request.contextPath}/exit">[退出]</a>
 </div>
 <!--Logo区域结束-->
 <!--导航区域开始-->
@@ -93,12 +104,12 @@
     <div class="search_add">
         <div>
             <!--<input type="button" value="月租" class="sort_asc" onclick="sort(this);" />-->
-            <form action="${pageContext.request.contextPath}/feeOrderByBaseCost" method="post">
-                <input type="button" value="基费" class="sort_asc" onclick="sort(this, $('#i1').name);document.forms[0].submit" id="b1"/>
-                <input type="hidden" name="rankBaseC" value="desc" id="i1"/>
-                <input type="button" value="时长" class="sort_asc" onclick="sort(this, $('#i2').name);document.forms[0].submit" id="b2"/>
-                <input type="hidden" name="rankBaseD" value="desc" id="i2"/>
-            </form>
+            <input type="button" value="基费"
+                   class="${pageBean.orderByCost}<c:if test="${pageBean.orderByCost==''||pageBean.orderByCost==null}">sort_asc</c:if>"
+                   onclick="sort(this);" id="b1"/>
+            <input type="button" value="时长"
+                   class="${pageBean.orderByDuration}<c:if test="${pageBean.orderByDuration==''||pageBean.orderByDuration==null}">sort_asc</c:if>"
+                   onclick="sort(this);" id="b2"/>
         </div>
         <input type="button" value="增加" class="btn_add" onclick="location.href='/fee/preparedAdd';"/>
     </div>
@@ -124,7 +135,9 @@
             <c:forEach var="cost" items="${pageBean.beanList}">
                 <tr id="${cost.costId}">
                     <td id="t1">${cost.costId}</td>
-                    <td><a href="${pageContext.request.contextPath}/fee/fee_detail?costId=${cost.costId}">${cost.costName}</a></td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/fee/fee_detail?costId=${cost.costId}">${cost.costName}</a>
+                    </td>
                     <td><c:if test="${cost.baseDuration != 0}">${cost.baseDuration}</c:if></td>
                     <td><c:if test="${cost.baseCost != 0}">${cost.baseCost}</c:if></td>
                     <td><c:if test="${cost.unitCost != 0}">${cost.unitCost}</c:if></td>
@@ -225,31 +238,6 @@
     <p>[源自北美的技术，最优秀的师资，最真实的企业环境，最适用的实战项目]</p>
     <p>版权所有(C)云科技有限公司</p>
 </div>
-<script>
-
-    $("#b1").click(function () {
-        alert("666");
-        $.ajax({
-            type: "post",
-            url: "/feeOrderByBaseDuration",
-            data: {
-                baseDuration: 1,
-                des: $("#b1").class.val()
-            },
-            success: function (result) {
-                console.log(result.data);
-
-                if (result.errorCode == 0) {
-
-                    // for循环添加tr标签
-                    console.log(1111);
-                }
-            }
-        })
-    })
-
-
-</script>
 
 </body>
 </html>

@@ -72,6 +72,33 @@
         WHERE account_id = #{accountId}
     </select>
 
+    <select id="findByIdCard"
+            parameterType="java.lang.String"
+            resultMap="accountMap">
+        SELECT
+        <include refid="accountSql"/>
+        FROM account
+        WHERE idcard_no = #{value}
+    </select>
+
+    <!--添加-->
+    <insert id="insertAccount"
+            parameterType="com.baidu.account.domain.Account">
+        INSERT INTO
+        account(recommender_id,login_name,login_password,status,create_date,pause_date,close_date,real_name,idcard_no,birth_date,gender,
+        occupation,telephone,email,mail_address,zip_code,qq,last_login_time,last_login_ip)
+        VALUES (#{recommenderId},#{loginName},#{loginPasswd},#{status},#{createDate},#{pauseDate},
+        #{closeDate},#{realName},#{idcardNo},#{birthDate},#{gender},#{occupation},#{telephone},#{email},
+        #{mailAddress},#{zipCode},#{qq},#{lastLoginTime},#{lastLoginIp})
+    </insert>
+
+    <!--删除-->
+    <delete id="deleteById"
+            parameterType="int">
+        DELETE FROM account WHERE accountId = #{accountId}
+    </delete>
+
+
 
 </mapper>
 

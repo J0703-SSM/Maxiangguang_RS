@@ -2,6 +2,7 @@ package com.baidu.cost.mapper;
 
 import com.baidu.base.domain.PageBean;
 import com.baidu.cost.domain.Cost;
+import com.baidu.cost.domain.PageBeanEx;
 
 import java.util.List;
 
@@ -12,8 +13,7 @@ public interface CostMapper {
 
     List<Cost> findAll();
 
-//    List<Cost> orderByBaseDuration(List<String> params);
-    List<Cost> orderByBaseDuration(String rankBaseD, String rankBaseC);
+    List<Cost> order(PageBeanEx pageBean);
 
     void updateStatus(Cost cost);
 

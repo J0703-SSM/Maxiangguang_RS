@@ -2,6 +2,7 @@ package com.baidu.account.controller;
 
 import com.baidu.account.domain.Account;
 import com.baidu.account.service.AccountService;
+import com.baidu.admin.domain.Admin;
 import com.baidu.base.domain.PageBean;
 import com.baidu.base.utils.Result;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * Created by dllo on 17/11/15.
@@ -78,9 +80,27 @@ public class AccountController {
      */
     @RequestMapping("/account_addPrep")
     public String accountAddPrep(){
-
         return "account/account_add";
     }
+
+    @ResponseBody
+    @RequestMapping("/getBirthDate")
+    public String getBirthDate(Account account){
+
+        if (null ==account){
+            return "";
+        }
+        String idcardNo = account.getIdcardNo();
+        StringBuilder sb = new StringBuilder();
+        sb.append(idcardNo.substring(6,10)).append("-");
+        sb.append(idcardNo.substring(10,12)).append("-");
+        sb.append(idcardNo.substring(12,14));
+
+        System.out.println(sb.toString());
+
+        return sb.toString();
+    }
+
 
     /**
      * 添加 account 对象
@@ -88,8 +108,9 @@ public class AccountController {
      */
     @RequestMapping("/account_add")
     public String accountAdd(@Validated Account account, BindingResult bindingResult,
-                                      Model model){
+                             PageBean<Account> pageBean, Model model){
 
+        model.addAttribute("account", account);
         if(bindingResult.hasErrors()){
             FieldError realNameEr = bindingResult.getFieldError("realName");
             FieldError idcardNoEr = bindingResult.getFieldError("idcardNo");
@@ -111,8 +132,48 @@ public class AccountController {
             }
         }
 
+        if (!account.getLoginPasswd().equals(account.getRePassWord())){
+            model.addAttribute("error", "两次密码不一致");
+            return "account/account_add";
+        }
+        if (null != account.getRecommenderIdCard()||!"".equals(account.getRecommenderIdCard())){
+            model.addAttribute("recommenderIdEr", "请输入正确的身份证号码");
+            return "account/account_add";
+        }
+        if (null != account.getEmail()||!"".equals(account.getEmail())){
+            String email = account.getEmail();
+            if (!email.matches(Admin.REGEX_EMAIL)) {
+                model.addAttribute("emailEr", "邮箱格式错误");
+            }
+        }
+        if (null != account.getMailAddress()||!"".equals(account.getMailAddress())){
+            String mailAddress = account.getMailAddress();
+            if (!mailAddress.matches("\\w{1,50}")){
+                model.addAttribute("mailAddressEr", "必须在50以内");
+            }
+        }
+        if (null != account.getZipCode()|| !"".equals(account.getZipCode())){
+            String zipCode = account.getZipCode();
+            if (!zipCode.matches("\\d{6}")) {
+                model.addAttribute("zipCodeEr","6位邮编");
+            }
+        }
+        if (null != account.getQq()|| !"".equals(account.getQq())){
+            String qq = account.getQq();
+            if (!qq.matches("\\d{5,13}")) {
+                model.addAttribute("qqEr","5 - 13 位qq号");
+            }
+        }
 
-        return "account/account_add";
+        account.setStatus("1");
+        account.setCreateDate(new Date());
+
+        accountService.insertAccount(account);
+
+        getPageProperties(pageBean);
+        accountService.findAll(pageBean);
+
+        return "account/account_list";
     }
 
     /**
@@ -128,7 +189,7 @@ public class AccountController {
 
         model.addAttribute("account", account);
 
-        return "account_update";
+        return "account/account_modi";
     }
 
     /**
@@ -148,15 +209,12 @@ public class AccountController {
      * @param account
      * @return
      */
-    @ResponseBody
     @RequestMapping("account_delete")
-    public Result accountDelete(Account account){
+    public void accountDelete(Account account){
 
 
-        Result result = new Result();
-        result.setSuccess(true);
+        accountService.deleteById(account.getAccountId());
 
-        return result;
     }
 
 

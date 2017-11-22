@@ -42,16 +42,17 @@
         DELETE FROM cost WHERE costId = #{costId}
     </delete>
 
-    <select id="OrderByBaseDuration"
-            parameterType="java.util.List"
+    <select id="order"
+            parameterType="com.baidu.cost.domain.PageBeanEx"
             resultType="com.baidu.cost.domain.Cost">
-        SELECT * FROM cost ORDER By baseDuration #{value}, baseCast #{value}
-         <!--<foreach collection="params != null and params.size > 0"-->
-                  <!--item="i"-->
-                  <!--open="order by baseDuration "-->
-                  <!--separator=", baseCost">-->
-             <!--#{i}-->
-         <!--</foreach>-->
+        SELECT * FROM cost
+        <if test="orderByCost != null and orderByCost != ''">
+            ORDER BY baseCost ${orderByCost}
+        </if>
+        <if test="orderByDuration != null and orderByDuration != ''">
+            ORDER By baseDuration ${orderByDuration}
+        </if>
+        limit ${start},${ps}
     </select>
 
 </mapper>

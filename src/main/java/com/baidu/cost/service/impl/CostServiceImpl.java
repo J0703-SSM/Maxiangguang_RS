@@ -2,6 +2,7 @@ package com.baidu.cost.service.impl;
 
 import com.baidu.base.domain.PageBean;
 import com.baidu.cost.domain.Cost;
+import com.baidu.cost.domain.PageBeanEx;
 import com.baidu.cost.mapper.CostMapper;
 import com.baidu.cost.service.CostService;
 import org.springframework.stereotype.Service;
@@ -32,17 +33,13 @@ public class CostServiceImpl implements CostService {
     }
 
     @Override
-    public PageBean<Cost> Order(String rankBaseD, String rankBaseC, PageBean<Cost> pageBean) {
+    public PageBeanEx Order(PageBeanEx pageBean) {
 
         getStart(pageBean);
 
-        List<String> params = new ArrayList<>();
-        params.add(rankBaseD);
-        params.add(rankBaseC);
+        List<Cost> costList = costMapper.order(pageBean);
 
-//        List<Cost> costList = costMapper.orderByBaseDuration(params);
-//
-//        pageBean.setBeanList(costList);
+        pageBean.setBeanList(costList);
 
         return pageBean;
     }
@@ -76,7 +73,7 @@ public class CostServiceImpl implements CostService {
     }
 
     @Override
-    public PageBean<Cost> findAll(PageBean<Cost> pageBean) {
+    public PageBeanEx findAll(PageBeanEx pageBean) {
 
         getStart(pageBean);
 
@@ -87,7 +84,7 @@ public class CostServiceImpl implements CostService {
         return pageBean;
     }
 
-    private void getStart(PageBean<Cost> pageBean) {
+    private void getStart(PageBeanEx pageBean) {
         int pc = pageBean.getPc();
         int ps = pageBean.getPs();
         pageBean.setStart((pc -1)*ps);

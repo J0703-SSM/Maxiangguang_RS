@@ -4,9 +4,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
-    <link type="text/css" rel="stylesheet" media="all" href="/resources/styles/global.css"/>
-    <link type="text/css" rel="stylesheet" media="all" href="/resources/styles/global_color.css"/>
-    <script src="/resources/js/jquery-3.2.1.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="${pageContext.request.contextPath}/resources/styles/global.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="${pageContext.request.contextPath}/resources/styles/global_color.css"/>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.js"></script>
 </head>
 <body class="index">
 <div class="login_box">
@@ -35,13 +35,13 @@
             <tr>
                 <td class="login_info">验证码：</td>
                 <td class="width70"><input name="code" type="text" class="width70"/></td>
-                <td><img src="/getVerifyCode" alt="验证码" title="点击更换" id="verifyCodeImage" onclick="changeImage()"/></td>
+                <td><img src="${pageContext.request.contextPath}/getVerifyCode" alt="验证码" title="点击更换" id="verifyCodeImage" onclick="changeImage()"/></td>
                 <td><span class="required">${codeError}</span></td>
             </tr>
             <tr>
                 <td></td>
                 <td class="login_button" colspan="2">
-                    <img id="sub" src="/resources/images/login_btn.png" onclick="document.forms[0].submit()"/>
+                    <img id="sub" src="${pageContext.request.contextPath}/resources/images/login_btn.png" onclick="document.forms[0].submit()"/>
                 </td>
                 <td><span class="required">${error}</span></td>
             </tr>
