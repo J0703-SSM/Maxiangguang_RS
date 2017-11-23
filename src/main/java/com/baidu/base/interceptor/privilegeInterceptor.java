@@ -19,6 +19,8 @@ public class privilegeInterceptor implements HandlerInterceptor {
         // 获取请求路径
         String url = request.getRequestURI();
         Admin admin = (Admin) request.getServletContext().getAttribute("admin");
+
+        // 根据请求路径和角色的权限进行权限验证
         if (getPrivileges(url, admin, "admin/", 1)) return true;
         if (getPrivileges(url, admin, "role/", 2)) return true;
         if (getPrivileges(url, admin, "fee/", 3)) return true;
@@ -32,6 +34,14 @@ public class privilegeInterceptor implements HandlerInterceptor {
         return false;
     }
 
+    /**
+     *  根据 url 进行角色验证
+     * @param url 请求路径
+     * @param admin 用户
+     * @param s 路径前缀
+     * @param privilegeId 权限id
+     * @return
+     */
     private boolean getPrivileges(String url, Admin admin, String s, int privilegeId) {
         if (admin != null && url.indexOf(s) != -1) {
             for (Role role : admin.getRoleList()) {

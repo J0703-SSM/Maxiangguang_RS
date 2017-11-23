@@ -29,7 +29,7 @@ public class Admin {
     @Pattern(regexp = REGEX_EMAIL, message = "邮箱格式错误")
     private String email;
     private Date enrolldate;
-//    @NotBlank(message = "至少选一个")
+    @NotBlank(message = "至少选一个")
     private String role;//角色
     private String code;//验证码
     private String privilege;
